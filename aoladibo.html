@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Geotopia Pt3 Master Li</title>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #app-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    /* Header styles */
+    #header {
+      width: 960px;
+      background: #eee;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    #header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    #translation-widget span {
+      vertical-align: middle;
+    }
+    #translation-widget a {
+      text-decoration: none;
+    }
+    #container {
+      position: relative;
+      width: 960px;
+      height: 540px;
+      border: 1px solid #ccc;
+      background: white;
+      overflow: hidden;
+    }
+    .page {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 960px;
+      height: 540px;
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
+    .box {
+      position: absolute;
+    }
+    input.typeable {
+      position: absolute;
+      font-family: "Comic Sans MS", sans-serif;
+      font-size: 22px;
+      border: 1px solid black;
+      background: rgba(173,216,230,0.5);
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    /* For pages 9 to 14, override the font-size */
+    .largeFont {
+      font-size: 24px;
+    }
+    #progressBar {
+      width: 100%;
+      background: #ccc;
+      height: 20px;
+    }
+    #progress {
+      width: 0%;
+      background: green;
+      height: 100%;
+    }
+    #nav-buttons {
+      margin-top: 10px;
+    }
+    button {
+      font-family: "Caveat", cursive;
+      font-size: 20px;
+      background-color: lightblue;
+      border: none;
+      padding: 10px 20px;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+    /* Background images for each page */
+    #page1 { background: url("https://daryeaye.github.io/gt5/5-01.jpg") no-repeat center; background-size: contain; }
+    #page2 { background: url("https://daryeaye.github.io/gt5/5-02.jpg") no-repeat center; background-size: contain; }
+    #page3 { background: url("https://daryeaye.github.io/gt5/5-03.jpg") no-repeat center; background-size: contain; }
+    #page4 { background: url("https://daryeaye.github.io/gt5/5-04.jpg") no-repeat center; background-size: contain; }
+    #page5 { background: url("https://daryeaye.github.io/gt5/5-05.jpg") no-repeat center; background-size: contain; }
+    #page6 { background: url("https://daryeaye.github.io/gt5/5-06.jpg") no-repeat center; background-size: contain; }
+    #page7 { background: url("https://daryeaye.github.io/gt5/5-07.jpg") no-repeat center; background-size: contain; }
+    #page8 { background: url("https://daryeaye.github.io/gt5/5-08.jpg") no-repeat center; background-size: contain; }
+    #page9 { background: url("https://daryeaye.github.io/gt5/5-09.jpg") no-repeat center; background-size: contain; }
+    #page10 { background: url("https://daryeaye.github.io/gt5/5-10.jpg") no-repeat center; background-size: contain; }
+    #page11 { background: url("https://daryeaye.github.io/gt5/5-11.jpg") no-repeat center; background-size: contain; }
+    #page12 { background: url("https://daryeaye.github.io/gt5/5-12.jpg") no-repeat center; background-size: contain; }
+    #page13 { background: url("https://daryeaye.github.io/gt5/5-13.jpg") no-repeat center; background-size: contain; }
+    #page14 { background: url("https://daryeaye.github.io/gt5/5-14.jpg") no-repeat center; background-size: contain; }
+    #page15 { background: url("https://daryeaye.github.io/gt5/5-15.jpg") no-repeat center; background-size: contain; }
+    #page16 { background: url("https://daryeaye.github.io/gt5/5-16.jpg") no-repeat center; background-size: contain; }
+    #page17 { background: url("https://daryeaye.github.io/gt5/5-17.jpg") no-repeat center; background-size: contain; }
+    #page18 { background: url("https://daryeaye.github.io/gt5/5-18.jpg") no-repeat center; background-size: contain; }
+  </style>
+</head>
+<body>
+  <div id="app-container">
+    <div id="header">
+      <div id="header-top">
+        <div>
+          <input type="text" id="username" placeholder="Enter your name" style="font-size:16px; padding:5px;" />
+          <button id="confirmBtn" onclick="confirmName()">Confirm</button>
+        </div>
+        <div id="translation-widget">
+          <span style="font-size: 18px;">Need translation?</span>
+          <span style="font-size: 22px; margin-left: 10px;">
+            <a href="https://drive.google.com/file/d/1VphwJjIgx38mvtCyFYdGHLfvWQ0ibPdh/view?usp=drive_link" target="_blank">Open me!</a>
+          </span>
+        </div>
+      </div>
+      <div id="progressBar">
+        <div id="progress"></div>
+      </div>
+      <span id="progressText">0% completed</span>
+    </div>
+    <div id="container">
+      <!-- Page 1: Keep it as it is -->
+      <div id="page1" class="page active">
+        <a href="https://daryeaye.github.io/geotopia/GT1%20Officer+.pdf" target="_blank">
+          <div class="box" style="left:12px; top:385px; width:128px; height:108px; border: 1px solid red;"></div>
+        </a>
+        <a href="https://daryeaye.github.io/geotopia/GT1%20Professor+.pdf" target="_blank">
+          <div class="box" style="left:151px; top:385px; width:128px; height:108px; border: 1px solid red;"></div>
+        </a>
+        <a href="https://daryeaye.github.io/geotopia/GT1%20Hacker+.pdf" target="_blank">
+          <div class="box" style="left:290px; top:385px; width:128px; height:108px; border: 1px solid red;"></div>
+        </a>
+      </div>
+      
+      <!-- Page 2: Nothing -->
+      <div id="page2" class="page"></div>
+      
+      <!-- Page 3: Keep as it is -->
+      <div id="page3" class="page">
+        <div class="box" style="left:469px; top:151px; width:123px; height:31px;">
+          <input type="text" class="typeable" id="p3box1" />
+        </div>
+        <div class="box" style="left:418px; top:189px; width:169px; height:30px;">
+          <input type="text" class="typeable" id="p3box2" />
+        </div>
+        <div class="box" style="left:469px; top:284px; width:101px; height:31px;">
+          <input type="text" class="typeable" id="p3box3" />
+        </div>
+        <div class="box" style="left:575px; top:284px; width:101px; height:31px;">
+          <input type="text" class="typeable" id="p3box4" />
+        </div>
+        <div class="box" style="left:810px; top:284px; width:118px; height:31px;">
+          <input type="text" class="typeable" id="p3box5" />
+        </div>
+        <div class="box" style="left:575px; top:380px; width:96px; height:30px;">
+          <input type="text" class="typeable" id="p3box6" />
+        </div>
+        <div class="box" style="left:620px; top:416px; width:86px; height:30px;">
+          <input type="text" class="typeable" id="p3box7" />
+        </div>
+      </div>
+      
+      <!-- Page 4: Nothing (Geogebra iframe remains) -->
+      <div id="page4" class="page" style="position: relative;">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; z-index: 2; transform: scale(0.85); transform-origin: top center; display: flex; justify-content: center; padding-top: 10px;">
+          <iframe src="https://www.geogebra.org/material/iframe/id/b3dvxbgp/width/1200/height/600/border/888888/rc/false/ai/false" width="1200" height="480" style="border:0;"></iframe>
+        </div>
+      </div>
+      
+      <!-- Page 5: Typeable boxes with answer keys and colored boxes -->
+      <div id="page5" class="page">
+        <div class="box" style="left:410px; top:127px; width:54px; height:36px;">
+          <input type="text" class="typeable" id="p5box1" />
+        </div>
+        <div class="box" style="left:598px; top:127px; width:53px; height:36px;">
+          <input type="text" class="typeable" id="p5box2" />
+        </div>
+        <div class="box" style="left:801px; top:127px; width:54px; height:36px;">
+          <input type="text" class="typeable" id="p5box3" />
+        </div>
+        <div class="box" style="left:710px; top:197px; width:86px; height:57px;">
+          <input type="text" class="typeable" data-correct="280" id="p5box4" />
+        </div>
+        <div class="box" style="left:421px; top:211px; width:54px; height:41px;">
+          <input type="text" class="typeable" id="p5box5" />
+        </div>
+        <div class="box" style="left:517px; top:211px; width:54px; height:41px;">
+          <input type="text" class="typeable" id="p5box6" />
+        </div>
+        <div class="box" style="left:613px; top:211px; width:54px; height:41px;">
+          <input type="text" class="typeable" id="p5box7" />
+        </div>
+        <!-- Colored boxes as specified -->
+        <div class="box" style="left:306px; top:335px; width:54px; height:56px;">
+          <input type="text" class="typeable" data-correct="56" id="p5box8" style="background-color: #ffa577;" />
+        </div>
+        <div class="box" style="left:382px; top:335px; width:54px; height:56px;">
+          <input type="text" class="typeable" id="p5box9" style="background-color: #ffa577;" />
+        </div>
+        <div class="box" style="left:471px; top:335px; width:54px; height:56px;">
+          <input type="text" class="typeable" id="p5box10" style="background-color: #74b47b;" />
+        </div>
+        <div class="box" style="left:555px; top:335px; width:53px; height:56px;">
+          <input type="text" class="typeable" id="p5box11" style="background-color: #74b47b;" />
+        </div>
+        <div class="box" style="left:641px; top:335px; width:53px; height:56px;">
+          <input type="text" class="typeable" id="p5box12" style="background-color: #ff76d1;" />
+        </div>
+        <div class="box" style="left:720px; top:335px; width:54px; height:56px;">
+          <input type="text" class="typeable" id="p5box13" style="background-color: #ff76d1;" />
+        </div>
+        <!-- Changed expected answer from 190 to 262 for this box -->
+        <div class="box" style="left:808px; top:335px; width:87px; height:56px;">
+          <input type="text" class="typeable" data-correct="262" id="p5box14" />
+        </div>
+        <div class="box" style="left:75px; top:362px; width:156px; height:133px;">
+          <img src="https://daryeaye.github.io/gt5/net.gif" alt="Net Image" style="width:100%; height:100%;" />
+        </div>
+      </div>
+      
+      <!-- Page 6: Similar typeable boxes with answer keys and colored boxes -->
+      <div id="page6" class="page">
+        <div class="box" style="left:410px; top:127px; width:54px; height:36px;">
+          <input type="text" class="typeable" id="p6box1" />
+        </div>
+        <div class="box" style="left:598px; top:127px; width:53px; height:36px;">
+          <input type="text" class="typeable" id="p6box2" />
+        </div>
+        <div class="box" style="left:801px; top:127px; width:54px; height:36px;">
+          <input type="text" class="typeable" id="p6box3" />
+        </div>
+        <div class="box" style="left:710px; top:197px; width:86px; height:57px;">
+          <input type="text" class="typeable" data-correct="160" id="p6box4" />
+        </div>
+        <div class="box" style="left:421px; top:211px; width:54px; height:41px;">
+          <input type="text" class="typeable" id="p6box5" />
+        </div>
+        <div class="box" style="left:517px; top:211px; width:54px; height:41px;">
+          <input type="text" class="typeable" id="p6box6" />
+        </div>
+        <div class="box" style="left:613px; top:211px; width:54px; height:41px;">
+          <input type="text" class="typeable" id="p6box7" />
+        </div>
+        <!-- Colored boxes -->
+        <div class="box" style="left:306px; top:335px; width:54px; height:56px;">
+          <input type="text" class="typeable" data-correct="20" id="p6box8" style="background-color: #ffa577;" />
+        </div>
+        <div class="box" style="left:382px; top:335px; width:54px; height:56px;">
+          <input type="text" class="typeable" id="p6box9" style="background-color: #ffa577;" />
+        </div>
+        <div class="box" style="left:471px; top:335px; width:54px; height:56px;">
+          <input type="text" class="typeable" id="p6box10" style="background-color: #74b47b;" />
+        </div>
+        <div class="box" style="left:555px; top:335px; width:53px; height:56px;">
+          <input type="text" class="typeable" id="p6box11" style="background-color: #74b47b;" />
+        </div>
+        <div class="box" style="left:641px; top:335px; width:53px; height:56px;">
+          <input type="text" class="typeable" id="p6box12" style="background-color: #ff76d1;" />
+        </div>
+        <div class="box" style="left:720px; top:335px; width:54px; height:56px;">
+          <input type="text" class="typeable" id="p6box13" style="background-color: #ff76d1;" />
+        </div>
+        <div class="box" style="left:808px; top:335px; width:87px; height:56px;">
+          <input type="text" class="typeable" data-correct="184" id="p6box14" />
+        </div>
+        <div class="box" style="left:75px; top:362px; width:156px; height:133px;">
+          <img src="https://daryeaye.github.io/gt5/net.gif" alt="Net Image" style="width:100%; height:100%;" />
+        </div>
+      </div>
+      
+      <!-- Page 7: Similar typeable boxes with answer keys and colored boxes -->
+      <div id="page7" class="page">
+        <div class="box" style="left:410px; top:127px; width:54px; height:36px;">
+          <input type="text" class="typeable" id="p7box1" />
+        </div>
+        <div class="box" style="left:598px; top:127px; width:53px; height:36px;">
+          <input type="text" class="typeable" id="p7box2" />
+        </div>
+        <div class="box" style="left:801px; top:127px; width:54px; height:36px;">
+          <input type="text" class="typeable" id="p7box3" />
+        </div>
+        <div class="box" style="left:710px; top:197px; width:86px; height:57px;">
+          <input type="text" class="typeable" data-correct="343" id="p7box4" />
+        </div>
+        <div class="box" style="left:421px; top:211px; width:54px; height:41px;">
+          <input type="text" class="typeable" id="p7box5" />
+        </div>
+        <div class="box" style="left:517px; top:211px; width:54px; height:41px;">
+          <input type="text" class="typeable" id="p7box6" />
+        </div>
+        <div class="box" style="left:613px; top:211px; width:54px; height:41px;">
+          <input type="text" class="typeable" id="p7box7" />
+        </div>
+        <!-- Colored boxes -->
+        <div class="box" style="left:306px; top:335px; width:54px; height:56px;">
+          <input type="text" class="typeable" data-correct="49" id="p7box8" style="background-color: #ffa577;" />
+        </div>
+        <div class="box" style="left:382px; top:335px; width:54px; height:56px;">
+          <input type="text" class="typeable" id="p7box9" style="background-color: #ffa577;" />
+        </div>
+        <div class="box" style="left:471px; top:335px; width:54px; height:56px;">
+          <input type="text" class="typeable" id="p7box10" style="background-color: #74b47b;" />
+        </div>
+        <div class="box" style="left:555px; top:335px; width:53px; height:56px;">
+          <input type="text" class="typeable" id="p7box11" style="background-color: #74b47b;" />
+        </div>
+        <div class="box" style="left:641px; top:335px; width:53px; height:56px;">
+          <input type="text" class="typeable" id="p7box12" style="background-color: #ff76d1;" />
+        </div>
+        <div class="box" style="left:720px; top:335px; width:54px; height:56px;">
+          <input type="text" class="typeable" id="p7box13" style="background-color: #ff76d1;" />
+        </div>
+        <div class="box" style="left:808px; top:335px; width:87px; height:56px;">
+          <input type="text" class="typeable" data-correct="294" id="p7box14" />
+        </div>
+        <div class="box" style="left:75px; top:362px; width:156px; height:133px;">
+          <img src="https://daryeaye.github.io/gt5/net.gif" alt="Net Image" style="width:100%; height:100%;" />
+        </div>
+      </div>
+      
+      <!-- Page 8: Nothing -->
+      <div id="page8" class="page"></div>
+      
+      <!-- Page 9: Two large-font typeable boxes -->
+      <div id="page9" class="page">
+        <div class="box" style="left:25px; top:69px; width:389px; height:132px;">
+          <input type="text" class="typeable largeFont" data-correct="2748" id="p9box1" />
+        </div>
+        <div class="box" style="left:25px; top:256px; width:389px; height:131px;">
+          <input type="text" class="typeable largeFont" data-correct="9360" id="p9box2" />
+        </div>
+      </div>
+      
+      <!-- Page 10: Two large-font typeable boxes -->
+      <div id="page10" class="page">
+        <div class="box" style="left:25px; top:69px; width:389px; height:132px;">
+          <input type="text" class="typeable largeFont" data-correct="13600" id="p10box1" />
+        </div>
+        <div class="box" style="left:25px; top:256px; width:389px; height:131px;">
+          <input type="text" class="typeable largeFont" data-correct="105600" id="p10box2" />
+        </div>
+      </div>
+      
+      <!-- Page 11: Two large-font typeable boxes -->
+      <div id="page11" class="page">
+        <div class="box" style="left:25px; top:69px; width:389px; height:132px;">
+          <input type="text" class="typeable largeFont" data-correct="4390" id="p11box1" />
+        </div>
+        <div class="box" style="left:25px; top:256px; width:389px; height:131px;">
+          <input type="text" class="typeable largeFont" data-correct="19250" id="p11box2" />
+        </div>
+      </div>
+      
+      <!-- Page 12: One large-font typeable box -->
+      <div id="page12" class="page">
+        <div class="box" style="left:15px; top:233px; width:491px; height:153px;">
+          <input type="text" class="typeable largeFont" data-correct="200" id="p12box1" />
+        </div>
+      </div>
+      
+      <!-- Page 13: A large-font typeable box and a drawing canvas on the right half -->
+      <div id="page13" class="page">
+        <div class="box" style="left:19px; top:77px; width:381px; height:355px;">
+          <input type="text" class="typeable largeFont" data-correct="80000" id="p13box1" />
+        </div>
+        <!-- Canvas now has a transparent border -->
+        <canvas id="drawCanvas" width="480" height="540" style="position:absolute; top:0; right:0; z-index:2; border: none;"></canvas>
+        <button id="resetDraw" style="position:absolute; bottom:10px; right:10px; z-index:3;">Reset</button>
+      </div>
+      
+      <!-- Page 14: One large-font typeable box -->
+      <div id="page14" class="page">
+        <div class="box" style="left:19px; top:77px; width:381px; height:355px;">
+          <input type="text" class="typeable largeFont" data-correct="4200" id="p14box1" />
+        </div>
+      </div>
+      
+      <!-- Page 15: Nothing -->
+      <div id="page15" class="page"></div>
+      
+      <!-- Page 16: Nothing -->
+      <div id="page16" class="page"></div>
+      
+      <!-- Page 17: Four typeable boxes; none may be left blank -->
+      <div id="page17" class="page">
+        <div class="box" style="left:118px; top:315px; width:65px; height:35px;">
+          <input type="text" class="typeable" id="p17box1" />
+        </div>
+        <div class="box" style="left:349px; top:350px; width:65px; height:35px;">
+          <input type="text" class="typeable" id="p17box2" />
+        </div>
+        <div class="box" style="left:214px; top:389px; width:65px; height:35px;">
+          <input type="text" class="typeable" id="p17box3" />
+        </div>
+        <div class="box" style="left:514px; top:294px; width:202px; height:123px;">
+          <input type="text" class="typeable" id="p17box4" />
+        </div>
+      </div>
+      
+      <!-- Page 18: One typeable box with an unlock button -->
+      <div id="page18" class="page">
+        <div class="box" style="left:80px; top:357px; width:252px; height:56px;">
+          <input type="text" class="typeable" id="p18box1" />
+        </div>
+        <div class="box" style="left:80px; top:420px; width:252px; height:30px;">
+          <button id="unlockBtn">Unlock</button>
+        </div>
+      </div>
+    </div>
+    <div id="nav-buttons">
+      <button id="prev-btn" onclick="prevPage()">Previous</button>
+      <button id="next-btn" onclick="nextPage()">Next</button>
+    </div>
+  </div>
+  
+  <script>
+    let currentPage = 1;
+    const totalPages = 18;
+    let maxPageVisited = 1;
+    
+    function updateProgress() {
+      const progressPercent = (maxPageVisited / totalPages) * 100;
+      document.getElementById('progress').style.width = progressPercent + '%';
+      document.getElementById('progressText').innerText = progressPercent.toFixed(0) + '% completed';
+    }
+    
+    function showPage(pageNum) {
+      for (let i = 1; i <= totalPages; i++) {
+        document.getElementById('page' + i).classList.remove('active');
+      }
+      document.getElementById('page' + pageNum).classList.add('active');
+      document.getElementById("prev-btn").style.display = pageNum === 1 ? "none" : "inline-block";
+      document.getElementById("next-btn").style.display = pageNum === totalPages ? "none" : "inline-block";
+      updateProgress();
+    }
+    
+    function nextPage() {
+      // Special check for page 3: at least 4 text boxes must be answered.
+      if (currentPage === 3) {
+        const inputs = document.querySelectorAll("#page3 input[type='text']");
+        let filledCount = 0;
+        inputs.forEach(input => {
+          if (input.value.trim() !== "") filledCount++;
+        });
+        if (filledCount < 4) {
+          alert("🛑 Annie said you are incorrect.");
+          return;
+        }
+      }
+      // For page 17, ensure no input is left blank.
+      if (currentPage === 17) {
+        const inputs = document.querySelectorAll("#page17 input[type='text']");
+        for (let input of inputs) {
+          if (input.value.trim() === "") {
+            alert("🛑 Annie said you are incorrect.");
+            return;
+          }
+        }
+      }
+      // For pages that require exact answers, check all inputs with data-correct attribute.
+      const inputsToCheck = document.querySelectorAll("#page" + currentPage + " input[data-correct]");
+      for (let input of inputsToCheck) {
+        const expected = input.getAttribute("data-correct");
+        const entered = input.value.trim().replace(/,/g, "");
+        if (entered !== expected) {
+          alert("🛑 Annie said you are incorrect.");
+          return;
+        }
+      }
+      if (currentPage < totalPages) {
+        currentPage++;
+        if (currentPage > maxPageVisited) maxPageVisited = currentPage;
+        showPage(currentPage);
+      }
+    }
+    
+    function prevPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        showPage(currentPage);
+      }
+    }
+    
+    function confirmName() {
+      const nameInput = document.getElementById("username");
+      const name = nameInput.value.trim();
+      if (name !== "") {
+        localStorage.setItem("username", name);
+        nameInput.disabled = true;
+        alert("Name confirmed as: " + name);
+      } else {
+        alert("Please enter a name.");
+      }
+    }
+    
+    function setupPersistence() {
+      const storedName = localStorage.getItem("username");
+      const nameInput = document.getElementById("username");
+      if (storedName !== null && storedName !== "") {
+        nameInput.value = storedName;
+        nameInput.disabled = true;
+      }
+      const inputs = document.querySelectorAll("input[type='text']");
+      inputs.forEach(el => {
+        const stored = localStorage.getItem(el.id);
+        if (stored !== null) {
+          el.value = stored;
+        }
+        el.addEventListener("input", () => {
+          localStorage.setItem(el.id, el.value);
+        });
+      });
+    }
+    
+    // Setup canvas drawing for page 13 with dynamic drawing
+    function setupCanvas() {
+      const canvas = document.getElementById("drawCanvas");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      let drawing = false;
+      let lineDrawn = false;
+      let startX, startY;
+      
+      canvas.addEventListener("mousedown", function(e) {
+        if (!lineDrawn) {
+          drawing = true;
+          const rect = canvas.getBoundingClientRect();
+          startX = e.clientX - rect.left;
+          startY = e.clientY - rect.top;
+        }
+      });
+      
+      canvas.addEventListener("mousemove", function(e) {
+        if (drawing && !lineDrawn) {
+          const rect = canvas.getBoundingClientRect();
+          const currentX = e.clientX - rect.left;
+          const currentY = e.clientY - rect.top;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.beginPath();
+          ctx.moveTo(startX, startY);
+          ctx.lineTo(currentX, currentY);
+          ctx.strokeStyle = "red";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
+      });
+      
+      canvas.addEventListener("mouseup", function(e) {
+        if (drawing && !lineDrawn) {
+          const rect = canvas.getBoundingClientRect();
+          const endX = e.clientX - rect.left;
+          const endY = e.clientY - rect.top;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.beginPath();
+          ctx.moveTo(startX, startY);
+          ctx.lineTo(endX, endY);
+          ctx.strokeStyle = "red";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          lineDrawn = true;
+          drawing = false;
+        }
+      });
+      
+      document.getElementById("resetDraw").addEventListener("click", function() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        lineDrawn = false;
+      });
+    }
+    
+    // Setup unlock button for page 18
+    function setupUnlock() {
+      const unlockBtn = document.getElementById("unlockBtn");
+      if (!unlockBtn) return;
+      unlockBtn.addEventListener("click", function() {
+        const code = document.getElementById("p18box1").value.trim();
+        if (code === "31621") {
+          window.open("https://daryeaye.github.io/geotopia/weikeduo.pdf", "_blank");
+        } else {
+          alert("🛑 Annie said you are incorrect.");
+        }
+      });
+    }
+    
+    document.addEventListener("DOMContentLoaded", function() {
+      showPage(currentPage);
+      setupPersistence();
+      setupCanvas();
+      setupUnlock();
+    });
+  </script>
+</body>
+</html>
