@@ -343,44 +343,44 @@
       <!-- Page 9: Two large-font typeable boxes -->
       <div id="page9" class="page">
         <div class="box" style="left:25px; top:69px; width:389px; height:132px;">
-          <input type="text" class="typeable largeFont" data-correct="2748" id="p9box1" />
+          <input type="text" class="typeable largeFont" data-correct="2748" data-match="contains" id="p9box1" />
         </div>
         <div class="box" style="left:25px; top:256px; width:389px; height:131px;">
-          <input type="text" class="typeable largeFont" data-correct="9360" id="p9box2" />
+          <input type="text" class="typeable largeFont" data-correct="9360" data-match="contains" id="p9box2" />
         </div>
       </div>
       
       <!-- Page 10: Two large-font typeable boxes -->
       <div id="page10" class="page">
         <div class="box" style="left:25px; top:69px; width:389px; height:132px;">
-          <input type="text" class="typeable largeFont" data-correct="13600" id="p10box1" />
+          <input type="text" class="typeable largeFont" data-correct="13600" data-match="contains" id="p10box1" />
         </div>
         <div class="box" style="left:25px; top:256px; width:389px; height:131px;">
-          <input type="text" class="typeable largeFont" data-correct="105600" id="p10box2" />
+          <input type="text" class="typeable largeFont" data-correct="105600" data-match="contains" id="p10box2" />
         </div>
       </div>
       
       <!-- Page 11: Two large-font typeable boxes -->
       <div id="page11" class="page">
         <div class="box" style="left:25px; top:69px; width:389px; height:132px;">
-          <input type="text" class="typeable largeFont" data-correct="4390" id="p11box1" />
+          <input type="text" class="typeable largeFont" data-correct="4390" data-match="contains" id="p11box1" />
         </div>
         <div class="box" style="left:25px; top:256px; width:389px; height:131px;">
-          <input type="text" class="typeable largeFont" data-correct="19250" id="p11box2" />
+          <input type="text" class="typeable largeFont" data-correct="19250" data-match="contains" id="p11box2" />
         </div>
       </div>
       
       <!-- Page 12: One large-font typeable box -->
       <div id="page12" class="page">
         <div class="box" style="left:15px; top:233px; width:491px; height:153px;">
-          <input type="text" class="typeable largeFont" data-correct="200" id="p12box1" />
+          <input type="text" class="typeable largeFont" data-correct="200" data-match="contains" id="p12box1" />
         </div>
       </div>
       
       <!-- Page 13: A large-font typeable box and a drawing canvas on the right half -->
       <div id="page13" class="page">
         <div class="box" style="left:19px; top:77px; width:381px; height:355px;">
-          <input type="text" class="typeable largeFont" data-correct="80000" id="p13box1" />
+          <input type="text" class="typeable largeFont" data-correct="80000" data-match="contains" id="p13box1" />
         </div>
         <!-- Canvas now has a transparent border -->
         <canvas id="drawCanvas" width="480" height="540" style="position:absolute; top:0; right:0; z-index:2; border: none;"></canvas>
@@ -390,7 +390,7 @@
       <!-- Page 14: One large-font typeable box -->
       <div id="page14" class="page">
         <div class="box" style="left:19px; top:77px; width:381px; height:355px;">
-          <input type="text" class="typeable largeFont" data-correct="4200" id="p14box1" />
+          <input type="text" class="typeable largeFont" data-correct="4200" data-match="contains" id="p14box1" />
         </div>
       </div>
       
@@ -480,18 +480,21 @@
       const inputsToCheck = document.querySelectorAll("#page" + currentPage + " input[data-correct]");
       for (let input of inputsToCheck) {
         const expected = input.getAttribute("data-correct");
+        const matchType = input.getAttribute("data-match"); // "contains" or null
         const entered = input.value.trim().replace(/,/g, "");
-        if (entered !== expected) {
-          alert("🛑 Annie said you are incorrect.");
-          return;
+      
+        if (matchType === "contains") {
+          if (!entered.includes(expected)) {
+            alert("🛑 Annie said you are incorrect.");
+            return;
+          }
+        } else {
+          if (entered !== expected) {
+            alert("🛑 Annie said you are incorrect.");
+            return;
+          }
         }
       }
-      if (currentPage < totalPages) {
-        currentPage++;
-        if (currentPage > maxPageVisited) maxPageVisited = currentPage;
-        showPage(currentPage);
-      }
-    }
     
     function prevPage() {
       if (currentPage > 1) {
