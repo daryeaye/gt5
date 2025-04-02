@@ -604,16 +604,21 @@
     function setupUnlock() {
       const unlockBtn = document.getElementById("unlockBtn");
       if (!unlockBtn) return;
-      unlockBtn.addEventListener("click", function() {
-        const code = document.getElementById("p18box1").value.trim();
+    
+      unlockBtn.addEventListener("click", function () {
+        const input = document.getElementById("p18box1");
+        const code = input.value.trim();
+    
         if (code === "31621") {
           window.open("https://daryeaye.github.io/geotopia/weikeduo.pdf", "_blank");
+          input.value = ""; // ✅ Clear the input after success
+          localStorage.removeItem("p18box1"); // ✅ Optional: clear it from localStorage too
         } else {
           alert("🛑 Annie said you are incorrect.");
         }
       });
     }
-    
+
     document.addEventListener("DOMContentLoaded", function() {
       showPage(currentPage);
       setupPersistence();
