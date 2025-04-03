@@ -116,6 +116,58 @@
     #page17 { background: url("https://daryeaye.github.io/gt5/5-17.jpg") no-repeat center; background-size: contain; }
     #page18 { background: url("https://daryeaye.github.io/gt5/5-18.jpg") no-repeat center; background-size: contain; }
   </style>
+  <!-- Added html2canvas library for the side widget -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- Side widget additional styles -->
+  <style>
+    /* Side widget styling */
+    #side-widget {
+      position: fixed;
+      top: 20px;
+      right: 20px; /* Change to left:20px; if you prefer */
+      width: 200px;
+      height: 200px;
+      background: #f9f9f9;
+      border: 1px solid #ccc;
+      padding: 10px;
+      box-sizing: border-box;
+      font-family: 'Caveat', cursive;
+      z-index: 999;
+    }
+    #side-widget p.title {
+      font-size: 24px;
+      text-align: center;
+      margin: 0 0 10px;
+    }
+    #side-widget button,
+    #side-widget a {
+      display: block;
+      margin: 0 auto;
+      font-size: 20px;
+      cursor: pointer;
+      text-align: center;
+      background: lightblue;
+      border: none;
+      padding: 10px;
+      text-decoration: none;
+      color: inherit;
+    }
+    /* Selection overlay styles */
+    #selection-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+      z-index: 1000;
+    }
+    #selection-box {
+      position: absolute;
+      border: 2px dashed #000;
+      background: rgba(0,0,0,0.1);
+    }
+  </style>
 </head>
 <body>
   <div id="app-container">
@@ -125,12 +177,7 @@
           <input type="text" id="username" placeholder="Enter your name" style="font-size:16px; padding:5px;" />
           <button id="confirmBtn" onclick="confirmName()">Confirm</button>
         </div>
-        <div id="translation-widget">
-          <span style="font-size: 18px;">Need translation?</span>
-          <span style="font-size: 22px; margin-left: 10px;">
-            <a href="https://drive.google.com/file/d/1i1thVtDTJ8LPfKzFL56kpC6B-wVADM5k/view?usp=sharing" target="_blank">Open me!</a>
-          </span>
-        </div>
+       
       </div>
       <div id="progressBar">
         <div id="progress"></div>
@@ -453,66 +500,66 @@
       updateProgress();
     }
 
-      function prevPage() {
-        if (currentPage > 1) {
-          currentPage--;
-          showPage(currentPage);
+    function prevPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        showPage(currentPage);
+      }
+    }
+        
+    function nextPage() {
+      // Special check for page 3: at least 4 text boxes must be answered.
+      if (currentPage === 3) {
+        const inputs = document.querySelectorAll("#page3 input[type='text']");
+        let filledCount = 0;
+        inputs.forEach(input => {
+          if (input.value.trim() !== "") filledCount++;
+        });
+        if (filledCount < 4) {
+          alert("🛑 Annie said you are incorrect.");
+          return;
         }
       }
-          
-      function nextPage() {
-        // Special check for page 3: at least 4 text boxes must be answered.
-        if (currentPage === 3) {
-          const inputs = document.querySelectorAll("#page3 input[type='text']");
-          let filledCount = 0;
-          inputs.forEach(input => {
-            if (input.value.trim() !== "") filledCount++;
-          });
-          if (filledCount < 4) {
+    
+      // For page 17, ensure no input is left blank.
+      if (currentPage === 17) {
+        const inputs = document.querySelectorAll("#page17 input[type='text']");
+        for (let input of inputs) {
+          if (input.value.trim() === "") {
             alert("🛑 Annie said you are incorrect.");
             return;
           }
         }
-      
-        // For page 17, ensure no input is left blank.
-        if (currentPage === 17) {
-          const inputs = document.querySelectorAll("#page17 input[type='text']");
-          for (let input of inputs) {
-            if (input.value.trim() === "") {
-              alert("🛑 Annie said you are incorrect.");
-              return;
-            }
+      }
+    
+      // General check: For inputs with data-correct, validate them
+      const inputsToCheck = document.querySelectorAll("#page" + currentPage + " input[data-correct]");
+      for (let input of inputsToCheck) {
+        const expected = input.getAttribute("data-correct");
+        const matchType = input.getAttribute("data-match"); // "contains" or null
+        const entered = input.value.trim().replace(/,/g, "");
+    
+        if (matchType === "contains") {
+          if (!entered.includes(expected)) {
+            alert("🛑 Annie said you are incorrect.");
+            return;
           }
-        }
-      
-        // General check: For inputs with data-correct, validate them
-        const inputsToCheck = document.querySelectorAll("#page" + currentPage + " input[data-correct]");
-        for (let input of inputsToCheck) {
-          const expected = input.getAttribute("data-correct");
-          const matchType = input.getAttribute("data-match"); // "contains" or null
-          const entered = input.value.trim().replace(/,/g, "");
-      
-          if (matchType === "contains") {
-            if (!entered.includes(expected)) {
-              alert("🛑 Annie said you are incorrect.");
-              return;
-            }
-          } else {
-            if (entered !== expected) {
-              alert("🛑 Annie said you are incorrect.");
-              return;
-            }
+        } else {
+          if (entered !== expected) {
+            alert("🛑 Annie said you are incorrect.");
+            return;
           }
-        }
-      
-        // Move to the next page
-        if (currentPage < totalPages) {
-          currentPage++;
-          if (currentPage > maxPageVisited) maxPageVisited = currentPage;
-          showPage(currentPage);
         }
       }
-          
+    
+      // Move to the next page
+      if (currentPage < totalPages) {
+        currentPage++;
+        if (currentPage > maxPageVisited) maxPageVisited = currentPage;
+        showPage(currentPage);
+      }
+    }
+        
     function confirmName() {
       const nameInput = document.getElementById("username");
       const name = nameInput.value.trim();
@@ -611,8 +658,8 @@
     
         if (code === "31621") {
           window.open("https://daryeaye.github.io/geotopia/weikeduo.pdf", "_blank");
-          input.value = ""; // ✅ Clear the input after success
-          localStorage.removeItem("p18box1"); // ✅ Optional: clear it from localStorage too
+          input.value = "";
+          localStorage.removeItem("p18box1");
         } else {
           alert("🛑 Annie said you are incorrect.");
         }
@@ -624,6 +671,99 @@
       setupPersistence();
       setupCanvas();
       setupUnlock();
+    });
+  </script>
+  
+  <!-- Side Widget Markup -->
+  <div id="side-widget">
+    <p class="title">Need translation?</p>
+    <button id="select-text">Select Text</button>
+    <p>
+      <a href="https://translate.google.com/?sl=en&tl=es&op=images" target="_blank">
+        Click me and paste from clipboard
+      </a>
+    </p>
+  </div>
+  
+  <!-- Side Widget Script -->
+  <script>
+    document.getElementById('select-text').addEventListener('click', function() {
+      // Create overlay for user selection
+      const overlay = document.createElement('div');
+      overlay.id = 'selection-overlay';
+      document.body.appendChild(overlay);
+      
+      let startX, startY, selectionBox;
+      
+      overlay.addEventListener('mousedown', function(e) {
+        startX = e.clientX;
+        startY = e.clientY;
+        
+        selectionBox = document.createElement('div');
+        selectionBox.id = 'selection-box';
+        selectionBox.style.left = startX + 'px';
+        selectionBox.style.top = startY + 'px';
+        selectionBox.style.width = '0px';
+        selectionBox.style.height = '0px';
+        overlay.appendChild(selectionBox);
+        
+        function mouseMoveHandler(e) {
+          const currentX = e.clientX;
+          const currentY = e.clientY;
+          const rectLeft = Math.min(startX, currentX);
+          const rectTop = Math.min(startY, currentY);
+          const rectWidth = Math.abs(currentX - startX);
+          const rectHeight = Math.abs(currentY - startY);
+          selectionBox.style.left = rectLeft + 'px';
+          selectionBox.style.top = rectTop + 'px';
+          selectionBox.style.width = rectWidth + 'px';
+          selectionBox.style.height = rectHeight + 'px';
+        }
+        
+        function mouseUpHandler(e) {
+          overlay.removeEventListener('mousemove', mouseMoveHandler);
+          overlay.removeEventListener('mouseup', mouseUpHandler);
+          
+          const boxRect = selectionBox.getBoundingClientRect();
+          document.body.removeChild(overlay);
+          
+          // Use the main container as the capture target
+          const target = document.getElementById('app-container');
+          const targetRect = target.getBoundingClientRect();
+          
+          // Use html2canvas to capture the target element
+          html2canvas(target, { useCORS: true, allowTaint: false }).then(canvas => {
+            // Calculate scale factor for accurate cropping
+            const scaleFactor = canvas.width / targetRect.width;
+            const sx = (boxRect.left - targetRect.left) * scaleFactor;
+            const sy = (boxRect.top - targetRect.top) * scaleFactor;
+            const sWidth = boxRect.width * scaleFactor;
+            const sHeight = boxRect.height * scaleFactor;
+            
+            const croppedCanvas = document.createElement('canvas');
+            croppedCanvas.width = sWidth;
+            croppedCanvas.height = sHeight;
+            const ctx = croppedCanvas.getContext('2d');
+            ctx.drawImage(canvas, sx, sy, sWidth, sHeight, 0, 0, sWidth, sHeight);
+            
+            // Copy the cropped image to the clipboard
+            croppedCanvas.toBlob(blob => {
+              if (blob) {
+                const item = new ClipboardItem({ 'image/png': blob });
+                navigator.clipboard.write([item]).then(() => {
+                  alert('Screenshot copied to clipboard.');
+                }).catch(err => {
+                  console.error('Failed to copy screenshot to clipboard', err);
+                  alert('Failed to copy screenshot to clipboard.');
+                });
+              }
+            });
+          });
+        }
+        
+        overlay.addEventListener('mousemove', mouseMoveHandler);
+        overlay.addEventListener('mouseup', mouseUpHandler);
+      });
     });
   </script>
 </body>
