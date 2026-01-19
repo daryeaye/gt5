@@ -1,1 +1,684 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Lost Treasure Pt5 Annie</title><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet"><style>body,html{margin:0;padding:0;height:100vh;display:flex;justify-content:center;align-items:center;background:url('https://daryeaye.github.io/geotopia/thatsit.png') no-repeat center center fixed;background-size:cover}#app-container{display:flex;flex-direction:column;align-items:center}#header{width:960px;background:#eee;padding:10px;margin-bottom:10px}#header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}#translation-widget span{vertical-align:middle}#translation-widget a{text-decoration:none}#container{position:relative;width:960px;height:540px;border:1px solid #ccc;background:white;overflow:hidden}.page{position:absolute;top:0;left:0;width:960px;height:540px;display:none}.page.active{display:block}.box{position:absolute}input.typeable{position:absolute;font-family:"Comic Sans MS",sans-serif;font-size:22px;border:1px solid black;background:rgba(173,216,230,0.5);width:100%;height:100%;box-sizing:border-box;text-align:center}.largeFont{font-size:24px}#progressBar{width:100%;background:#ccc;height:20px}#progress{width:0%;background:green;height:100%}#nav-buttons{margin-top:10px}button{font-family:"Caveat",cursive;font-size:20px;background-color:lightblue;border:none;padding:10px 20px;margin:0 5px;cursor:pointer}#page1{background:url("https://daryeaye.github.io/gt5/5-01.jpg") no-repeat center; background-size:contain}#page2{background:url("https://daryeaye.github.io/gt5/5-02.jpg") no-repeat center; background-size:contain}#page3{background:url("https://daryeaye.github.io/gt5/5-03.jpg") no-repeat center; background-size:contain}#page4{background:url("https://daryeaye.github.io/gt5/5-04.jpg") no-repeat center; background-size:contain}#page5{background:url("https://daryeaye.github.io/gt5/5-05.jpg") no-repeat center; background-size:contain}#page6{background:url("https://daryeaye.github.io/gt5/5-06.jpg") no-repeat center; background-size:contain}#page7{background:url("https://daryeaye.github.io/gt5/5-07.jpg") no-repeat center; background-size:contain}#page8{background:url("https://daryeaye.github.io/gt5/5-08.jpg") no-repeat center; background-size:contain}#page9{background:url("https://daryeaye.github.io/gt5/5-09.jpg") no-repeat center; background-size:contain}#page10{background:url("https://daryeaye.github.io/gt5/5-10.jpg") no-repeat center; background-size:contain}#page11{background:url("https://daryeaye.github.io/gt5/5-11.jpg") no-repeat center; background-size:contain}#page12{background:url("https://daryeaye.github.io/gt5/5-12.jpg") no-repeat center; background-size:contain}#page13{background:url("https://daryeaye.github.io/gt5/5-13.jpg") no-repeat center; background-size:contain}#page14{background:url("https://daryeaye.github.io/gt5/5-14.jpg") no-repeat center; background-size:contain}#page15{background:url("https://daryeaye.github.io/gt5/5-15.jpg") no-repeat center; background-size:contain}#page16{background:url("https://daryeaye.github.io/gt5/5-16.jpg") no-repeat center; background-size:contain}#page17{background:url("https://daryeaye.github.io/gt5/5-17.jpg") no-repeat center; background-size:contain}#page18{background:url("https://daryeaye.github.io/gt5/5-18.jpg") no-repeat center; background-size:contain}</style><style>#side-widget{position:fixed;top:20px;right:20px;width:200px;height:200px;background:#f9f9f9;border:1px solid #ccc;padding:10px;box-sizing:border-box;font-family:'Caveat',cursive;z-index:999}#side-widget p.title{font-size:24px;text-align:center;margin:0 0 10px}#side-widget button,#side-widget a{display:block;margin:0 auto;font-size:20px;cursor:pointer;text-align:center;background:lightblue;border:none;padding:10px;text-decoration:none;color:inherit}#selection-overlay{position:fixed;top:0;left:0;width:100%;height:100%;cursor:crosshair;z-index:1000}#selection-box{position:absolute;border:2px dashed red;background:rgba(0,0,0,0.1)}</style><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script></head><body><div id="app-container"><div id="header"><div id="header-top"><div><input type="text" id="username" placeholder="Enter your name" style="font-size:16px; padding:5px;" /><button id="confirmBtn" onclick="confirmName()">Confirm</button></div></div><div id="progressBar"><div id="progress"></div></div><span id="progressText">0% completed</span></div><div id="container"><div id="page1" class="page active"><a href="https://daryeaye.github.io/geotopia/GT1%20Officer+.pdf" target="_blank"><div class="box" style="left:12px; top:385px; width:128px; height:108px; border:1px solid red;"></div></a><a href="https://daryeaye.github.io/geotopia/GT1%20Professor+.pdf" target="_blank"><div class="box" style="left:151px; top:385px; width:128px; height:108px; border:1px solid red;"></div></a><a href="https://daryeaye.github.io/geotopia/GT1%20Hacker+.pdf" target="_blank"><div class="box" style="left:290px; top:385px; width:128px; height:108px; border:1px solid red;"></div></a><a href="https://www.youtube.com/watch?v=Fj98o3aFfk8" target="_blank" style="position:absolute; left:134px; top:500px; width:177px; height:32px; background-color:rgba(128,128,128,0.9); font-family:'Caveat',cursive;font-size:22px;display:flex;align-items:center;justify-content:center;text-decoration:none;color:white;">What is the role for?</a></div><div id="page2" class="page"></div><div id="page3" class="page"><div class="box" style="left:469px; top:151px; width:123px; height:31px;"><input type="text" class="typeable" id="p3box1" /></div><div class="box" style="left:418px; top:189px; width:169px; height:30px;"><input type="text" class="typeable" id="p3box2" /></div><div class="box" style="left:469px; top:284px; width:101px; height:31px;"><input type="text" class="typeable" id="p3box3" /></div><div class="box" style="left:575px; top:284px; width:101px; height:31px;"><input type="text" class="typeable" id="p3box4" /></div><div class="box" style="left:810px; top:284px; width:118px; height:31px;"><input type="text" class="typeable" id="p3box5" /></div><div class="box" style="left:575px; top:380px; width:96px; height:30px;"><input type="text" class="typeable" id="p3box6" /></div><div class="box" style="left:620px; top:416px; width:86px; height:30px;"><input type="text" class="typeable" id="p3box7" /></div></div><div id="page4" class="page" style="position:relative;"><div style="position:absolute;top:0;left:0;width:100%;z-index:2;transform:scale(0.85);transform-origin:top center;display:flex;justify-content:center;padding-top:10px;"><iframe src="https://www.geogebra.org/material/iframe/id/b3dvxbgp/width/1200/height/600/border/888888/rc/false/ai/false" width="1200" height="480" style="border:0;"></iframe></div></div><div id="page5" class="page"><div class="box" style="left:410px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p5box1" /></div><div class="box" style="left:598px; top:127px; width:53px; height:36px;"><input type="text" class="typeable" id="p5box2" /></div><div class="box" style="left:801px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p5box3" /></div><div class="box" style="left:710px; top:197px; width:86px; height:57px;"><input type="text" class="typeable" data-correct="280" id="p5box4" /></div><div class="box" style="left:421px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p5box5" /></div><div class="box" style="left:517px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p5box6" /></div><div class="box" style="left:613px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p5box7" /></div><div class="box" style="left:306px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" data-correct="56" id="p5box8" style="background-color:#ffa577;" /></div><div class="box" style="left:382px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p5box9" style="background-color:#ffa577;" /></div><div class="box" style="left:471px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p5box10" style="background-color:#74b47b;" /></div><div class="box" style="left:555px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p5box11" style="background-color:#74b47b;" /></div><div class="box" style="left:641px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p5box12" style="background-color:#ff76d1;" /></div><div class="box" style="left:720px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p5box13" style="background-color:#ff76d1;" /></div><div class="box" style="left:808px; top:335px; width:87px; height:56px;"><input type="text" class="typeable" data-correct="262" id="p5box14" /></div><div class="box" style="left:75px; top:362px; width:156px; height:133px;"><img src="https://daryeaye.github.io/gt5/net.gif" alt="Net Image" style="width:100%; height:100%;" /></div></div><div id="page6" class="page"><div class="box" style="left:410px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p6box1" /></div><div class="box" style="left:598px; top:127px; width:53px; height:36px;"><input type="text" class="typeable" id="p6box2" /></div><div class="box" style="left:801px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p6box3" /></div><div class="box" style="left:710px; top:197px; width:86px; height:57px;"><input type="text" class="typeable" data-correct="160" id="p6box4" /></div><div class="box" style="left:421px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p6box5" /></div><div class="box" style="left:517px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p6box6" /></div><div class="box" style="left:613px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p6box7" /></div><div class="box" style="left:306px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" data-correct="20" id="p6box8" style="background-color:#ffa577;" /></div><div class="box" style="left:382px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p6box9" style="background-color:#ffa577;" /></div><div class="box" style="left:471px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p6box10" style="background-color:#74b47b;" /></div><div class="box" style="left:555px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p6box11" style="background-color:#74b47b;" /></div><div class="box" style="left:641px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p6box12" style="background-color:#ff76d1;" /></div><div class="box" style="left:720px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p6box13" style="background-color:#ff76d1;" /></div><div class="box" style="left:808px; top:335px; width:87px; height:56px;"><input type="text" class="typeable" data-correct="184" id="p6box14" /></div><div class="box" style="left:75px; top:362px; width:156px; height:133px;"><img src="https://daryeaye.github.io/gt5/net.gif" alt="Net Image" style="width:100%; height:100%;" /></div></div><div id="page7" class="page"><div class="box" style="left:410px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p7box1" /></div><div class="box" style="left:598px; top:127px; width:53px; height:36px;"><input type="text" class="typeable" id="p7box2" /></div><div class="box" style="left:801px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p7box3" /></div><div class="box" style="left:710px; top:197px; width:86px; height:57px;"><input type="text" class="typeable" data-correct="343" id="p7box4" /></div><div class="box" style="left:421px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p7box5" /></div><div class="box" style="left:517px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p7box6" /></div><div class="box" style="left:613px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p7box7" /></div><div class="box" style="left:306px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" data-correct="49" id="p7box8" style="background-color:#ffa577;" /></div><div class="box" style="left:382px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p7box9" style="background-color:#ffa577;" /></div><div class="box" style="left:471px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p7box10" style="background-color:#74b47b;" /></div><div class="box" style="left:555px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p7box11" style="background-color:#74b47b;" /></div><div class="box" style="left:641px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p7box12" style="background-color:#ff76d1;" /></div><div class="box" style="left:720px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p7box13" style="background-color:#ff76d1;" /></div><div class="box" style="left:808px; top:335px; width:87px; height:56px;"><input type="text" class="typeable" data-correct="294" id="p7box14" /></div><div class="box" style="left:75px; top:362px; width:156px; height:133px;"><img src="https://daryeaye.github.io/gt5/net.gif" alt="Net Image" style="width:100%; height:100%;" /></div></div><div id="page8" class="page"></div><div id="page9" class="page"><div class="box" style="left:25px; top:69px; width:389px; height:132px;"><input type="text" class="typeable largeFont" data-correct="2748" data-match="contains" id="p9box1" /></div><div class="box" style="left:25px; top:256px; width:389px; height:131px;"><input type="text" class="typeable largeFont" data-correct="9360" data-match="contains" id="p9box2" /></div></div><div id="page10" class="page"><div class="box" style="left:25px; top:69px; width:389px; height:132px;"><input type="text" class="typeable largeFont" data-correct="13600" data-match="contains" id="p10box1" /></div><div class="box" style="left:25px; top:256px; width:389px; height:131px;"><input type="text" class="typeable largeFont" data-correct="105600" data-match="contains" id="p10box2" /></div></div><div id="page11" class="page"><div class="box" style="left:25px; top:69px; width:389px; height:132px;"><input type="text" class="typeable largeFont" data-correct="4390" data-match="contains" id="p11box1" /></div><div class="box" style="left:25px; top:256px; width:389px; height:131px;"><input type="text" class="typeable largeFont" data-correct="19250" data-match="contains" id="p11box2" /></div></div><div id="page12" class="page"><div class="box" style="left:15px; top:233px; width:491px; height:153px;"><input type="text" class="typeable largeFont" data-correct="200" data-match="contains" id="p12box1" /></div></div><div id="page13" class="page"><div class="box" style="left:19px; top:77px; width:381px; height:355px;"><input type="text" class="typeable largeFont" data-correct="80000" data-match="contains" id="p13box1" /></div><canvas id="drawCanvas" width="480" height="540" style="position:absolute;top:0;right:0;z-index:2;border:none;"></canvas><button id="resetDraw" style="position:absolute;bottom:10px;right:10px;z-index:3;">Reset</button></div><div id="page14" class="page"><div class="box" style="left:19px; top:77px; width:381px; height:355px;"><input type="text" class="typeable largeFont" data-correct="4200" data-match="contains" id="p14box1" /></div></div><div id="page15" class="page"></div><div id="page16" class="page"></div><div id="page17" class="page"><div class="box" style="left:118px; top:315px; width:65px; height:35px;"><input type="text" class="typeable" id="p17box1" /></div><div class="box" style="left:349px; top:350px; width:65px; height:35px;"><input type="text" class="typeable" id="p17box2" /></div><div class="box" style="left:214px; top:389px; width:65px; height:35px;"><input type="text" class="typeable" id="p17box3" /></div><div class="box" style="left:514px; top:294px; width:202px; height:123px;"><input type="text" class="typeable" id="p17box4" /></div></div><div id="page18" class="page"><div class="box" style="left:80px; top:357px; width:252px; height:56px;"><input type="text" class="typeable" id="p18box1" /></div><div class="box" style="left:80px; top:420px; width:252px; height:30px;"><button id="unlockBtn">Unlock</button></div></div></div><div id="nav-buttons"><button id="prev-btn" onclick="prevPage()">Previous</button><button id="next-btn" onclick="nextPage()">Next</button></div></div><script>let currentPage=1,totalPages=18,maxPageVisited=1;function updateProgress(){const p=(maxPageVisited/totalPages)*100;document.getElementById("progress").style.width=p+"%";document.getElementById("progressText").innerText=p.toFixed(0)+"% completed"}function showPage(p){for(let i=1;i<=totalPages;i++){document.getElementById("page"+i).classList.remove("active")}document.getElementById("page"+p).classList.add("active");document.getElementById("prev-btn").style.display=p===1?"none":"inline-block";document.getElementById("next-btn").style.display=p===totalPages?"none":"inline-block";updateProgress()}function prevPage(){if(currentPage>1){currentPage--;showPage(currentPage)}}function nextPage(){if(currentPage===3){const inputs=document.querySelectorAll("#page3 input[type='text']"),cnt=Array.from(inputs).filter(x=>x.value.trim()!=="").length; if(cnt<4){alert("🛑 Annie said you are incorrect.");return}} if(currentPage===17){const inputs=document.querySelectorAll("#page17 input[type='text']"); for(let inp of inputs){if(inp.value.trim()===""){alert("🛑 Annie said you are incorrect."); return}}} const chk=document.querySelectorAll("#page"+currentPage+" input[data-correct]"); for(let inp of chk){const exp=inp.getAttribute("data-correct"),mt=inp.getAttribute("data-match"),ent=inp.value.trim().replace(/,/g,""); if(mt==="contains"){if(!ent.includes(exp)){alert("🛑 Annie said you are incorrect.");return}} else {if(ent!==exp){alert("🛑 Annie said you are incorrect.");return}}} if(currentPage<totalPages){currentPage++; if(currentPage>maxPageVisited) maxPageVisited=currentPage; showPage(currentPage)} }function confirmName(){const ni=document.getElementById("username"),name=ni.value.trim(); if(name!==""){localStorage.setItem("username",name);ni.disabled=!0;alert("Name confirmed as: "+name)} else {alert("Please enter a name.")}}function setupPersistence(){const n=localStorage.getItem("username"),ni=document.getElementById("username"); if(n!==null&&n!==""){ni.value=n;ni.disabled=!0} document.querySelectorAll("input[type='text']").forEach(el=>{const key=el.id,st=localStorage.getItem(key); if(st!==null) el.value=st; el.addEventListener("input",()=>{localStorage.setItem(key,el.value)})})}function setupCanvas(){const c=document.getElementById("drawCanvas"); if(!c)return; const ctx=c.getContext("2d"); let drawing=false,lineDone=false,startX, startY; c.addEventListener("mousedown",e=>{if(!lineDone){drawing=true; const r=c.getBoundingClientRect(); startX=e.clientX-r.left; startY=e.clientY-r.top}}); c.addEventListener("mousemove",e=>{if(drawing&&!lineDone){const r=c.getBoundingClientRect(),curX=e.clientX-r.left,curY=e.clientY-r.top; ctx.clearRect(0,0,c.width,c.height); ctx.beginPath(); ctx.moveTo(startX,startY); ctx.lineTo(curX,curY); ctx.strokeStyle="red"; ctx.lineWidth=2; ctx.stroke()}}); c.addEventListener("mouseup",e=>{if(drawing&&!lineDone){const r=c.getBoundingClientRect(),endX=e.clientX-r.left,endY=e.clientY-r.top; ctx.clearRect(0,0,c.width,c.height); ctx.beginPath(); ctx.moveTo(startX,startY); ctx.lineTo(endX,endY); ctx.strokeStyle="red"; ctx.lineWidth=2; ctx.stroke(); lineDone=true; drawing=false}}); document.getElementById("resetDraw").addEventListener("click",()=>{ctx.clearRect(0,0,c.width,c.height); lineDone=false})}function setupUnlock(){const btn=document.getElementById("unlockBtn"); if(!btn)return; btn.addEventListener("click",()=>{const inp=document.getElementById("p18box1"),code=inp.value.trim(); if(code==="31621"){window.open("https://daryeaye.github.io/geotopia/weikeduo.pdf","_blank"); inp.value=""; localStorage.removeItem("p18box1")} else {alert("🛑 Annie said you are incorrect.")}})}document.addEventListener("DOMContentLoaded",()=>{showPage(currentPage);setupPersistence();setupCanvas();setupUnlock()});</script><div id="side-widget"><p class="title">Need translation?</p><button id="select-text">Select Text</button><p><a href="https://translate.google.com/?sl=en&tl=es&op=images" target="_blank">Click me and paste from clipboard</a></p></div><script>document.getElementById("select-text").addEventListener("click",function(){const o=document.createElement("div");o.id="selection-overlay";document.body.appendChild(o);let sX,sY,sB;o.addEventListener("mousedown",function(e){sX=e.clientX;sY=e.clientY;sB=document.createElement("div");sB.id="selection-box";sB.style.left=sX+"px";sB.style.top=sY+"px";sB.style.width="0px";sB.style.height="0px";o.appendChild(sB);function mH(e){const cX=e.clientX,cY=e.clientY,l=Math.min(sX,cX),t=Math.min(sY,cY),w=Math.abs(cX-sX),h=Math.abs(cY-sY);sB.style.left=l+"px";sB.style.top=t+"px";sB.style.width=w+"px";sB.style.height=h+"px"}function uH(e){o.removeEventListener("mousemove",mH);o.removeEventListener("mouseup",uH);const r=sB.getBoundingClientRect();document.body.removeChild(o);const T=document.getElementById("app-container"),TR=T.getBoundingClientRect();html2canvas(T,{useCORS:true,allowTaint:false}).then(canvas=>{const sf=canvas.width/TR.width,sx=(r.left-TR.left)*sf,sy=(r.top-TR.top)*sf,sw=r.width*sf,sh=r.height*sf,cc=document.createElement("canvas");cc.width=sw;cc.height=sh;const ctx=cc.getContext("2d");ctx.drawImage(canvas,sx,sy,sw,sh,0,0,sw,sh);cc.toBlob(blob=>{if(blob){const itm=new ClipboardItem({"image/png":blob});navigator.clipboard.write([itm]).then(()=>{alert("Screenshot copied to clipboard.")}).catch(err=>{console.error("Failed to copy screenshot to clipboard",err);alert("Failed to copy screenshot to clipboard.")})}})})}o.addEventListener("mousemove",mH);o.addEventListener("mouseup",uH)})});<!-- @XDY. All rights reserved. This code is the intellectual property of XDY. Unauthorized copying, reproduction, or redistribution is strictly prohibited. For educational use only. Contact the author for permissions. --></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lost Treasure Pt5 Annie</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet" />
+
+  <!-- html2canvas (translation widget screenshot) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- PDF.js (renders PDFs in-page, works in Google Sites) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start; /* allow scroll, prevent cut-off */
+      background: url('https://daryeaye.github.io/geotopia/thatsit.png') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    #app-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      padding-bottom: 40px;
+    }
+
+    /* Sticky header */
+    #header {
+      width: 960px;
+      background: #eee;
+      padding: 10px;
+      margin-bottom: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    }
+
+    #header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    #progressBar { width: 100%; background: #ccc; height: 20px; }
+    #progress { width: 0%; background: green; height: 100%; }
+
+    /* Main stage row: nav on left, canvas centered */
+    #stage-row {
+      width: 960px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Bigger buttons, same position idea (left side, vertically centered) */
+    #nav-buttons {
+      position: absolute;
+      left: -150px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 0;
+    }
+
+    #nav-buttons button {
+      font-family: "Caveat", cursive;
+      font-size: 26px;        /* bigger */
+      background-color: lightblue;
+      border: none;
+      padding: 14px 26px;     /* bigger */
+      cursor: pointer;
+      border-radius: 6px;
+      white-space: nowrap;
+      margin: 0;
+    }
+
+    #container {
+      position: relative;
+      width: 960px;
+      height: 540px;
+      border: 1px solid #ccc;
+      background: white;
+      overflow: hidden;
+    }
+
+    .page {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 960px;
+      height: 540px;
+      display: none;
+    }
+    .page.active { display: block; }
+
+    .box { position: absolute; }
+
+    input.typeable {
+      position: absolute;
+      font-family: "Comic Sans MS", sans-serif;
+      font-size: 22px;
+      border: 1px solid black;
+      background: rgba(173,216,230,0.5);
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    .largeFont { font-size: 24px; }
+
+    /* Page backgrounds */
+    #page1 { background:url("https://daryeaye.github.io/gt5/5-01.jpg") no-repeat center; background-size:contain }
+    #page2 { background:url("https://daryeaye.github.io/gt5/5-02.jpg") no-repeat center; background-size:contain }
+    #page3 { background:url("https://daryeaye.github.io/gt5/5-03.jpg") no-repeat center; background-size:contain }
+    #page4 { background:url("https://daryeaye.github.io/gt5/5-04.jpg") no-repeat center; background-size:contain }
+    #page5 { background:url("https://daryeaye.github.io/gt5/5-05.jpg") no-repeat center; background-size:contain }
+    #page6 { background:url("https://daryeaye.github.io/gt5/5-06.jpg") no-repeat center; background-size:contain }
+    #page7 { background:url("https://daryeaye.github.io/gt5/5-07.jpg") no-repeat center; background-size:contain }
+    #page8 { background:url("https://daryeaye.github.io/gt5/5-08.jpg") no-repeat center; background-size:contain }
+    #page9 { background:url("https://daryeaye.github.io/gt5/5-09.jpg") no-repeat center; background-size:contain }
+    #page10{ background:url("https://daryeaye.github.io/gt5/5-10.jpg") no-repeat center; background-size:contain }
+    #page11{ background:url("https://daryeaye.github.io/gt5/5-11.jpg") no-repeat center; background-size:contain }
+    #page12{ background:url("https://daryeaye.github.io/gt5/5-12.jpg") no-repeat center; background-size:contain }
+    #page13{ background:url("https://daryeaye.github.io/gt5/5-13.jpg") no-repeat center; background-size:contain }
+    #page14{ background:url("https://daryeaye.github.io/gt5/5-14.jpg") no-repeat center; background-size:contain }
+    #page15{ background:url("https://daryeaye.github.io/gt5/5-15.jpg") no-repeat center; background-size:contain }
+    #page16{ background:url("https://daryeaye.github.io/gt5/5-16.jpg") no-repeat center; background-size:contain }
+    #page17{ background:url("https://daryeaye.github.io/gt5/5-17.jpg") no-repeat center; background-size:contain }
+    #page18{ background:url("https://daryeaye.github.io/gt5/5-18.jpg") no-repeat center; background-size:contain }
+
+    /* SECOND CANVAS (Role + PDF viewer) */
+    #role-container {
+      width: 960px;
+      height: 540px;
+      border: 1px solid #ccc;
+      margin-top: 16px;
+      position: relative;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    #role-stage {
+      width: 960px;
+      height: 540px;
+      position: absolute;
+      inset: 0;
+      background: url('https://daryeaye.github.io/geotopia/role.jpg') no-repeat center/contain;
+      background-color: #ffffff;
+    }
+
+    .role-hotspot {
+      position: absolute;
+      border: none;
+      background: rgba(255,0,0,0); /* invisible */
+      cursor: pointer;
+      padding: 0;
+    }
+
+    #pdf-view {
+      position: absolute;
+      inset: 0;
+      display: none;
+      background: #fff;
+    }
+    #pdf-scroll {
+      position: absolute;
+      inset: 0;
+      overflow: auto;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    #pdf-scroll canvas {
+      display: block;
+      margin: 0 auto 12px auto;
+      border: 1px solid #ddd;
+    }
+
+    /* Translation widget */
+    #side-widget{
+      position:fixed;
+      top:20px;
+      right:20px;
+      width:200px;
+      height:200px;
+      background:#f9f9f9;
+      border:1px solid #ccc;
+      padding:10px;
+      box-sizing:border-box;
+      font-family:'Caveat',cursive;
+      z-index:999
+    }
+    #side-widget p.title{font-size:24px;text-align:center;margin:0 0 10px}
+    #side-widget button,#side-widget a{
+      display:block;margin:0 auto;font-size:20px;cursor:pointer;text-align:center;
+      background:lightblue;border:none;padding:10px;text-decoration:none;color:inherit
+    }
+    #selection-overlay{position:fixed;top:0;left:0;width:100%;height:100%;cursor:crosshair;z-index:1000}
+    #selection-box{position:absolute;border:2px dashed red;background:rgba(0,0,0,0.1)}
+  </style>
+</head>
+
+<body>
+  <div id="app-container">
+    <div id="header">
+      <div id="header-top">
+        <div>
+          <input type="text" id="username" placeholder="Enter your name" style="font-size:16px; padding:5px;" />
+          <button id="confirmBtn" onclick="confirmName()">Confirm</button>
+        </div>
+      </div>
+      <div id="progressBar"><div id="progress"></div></div>
+      <span id="progressText">0% completed</span>
+    </div>
+
+    <div id="stage-row">
+      <div id="nav-buttons">
+        <button id="prev-btn" onclick="prevPage()">Previous</button>
+        <button id="next-btn" onclick="nextPage()">Next</button>
+      </div>
+
+      <div id="container">
+        <!-- PAGE 1: role boxes removed (now in second canvas) -->
+        <div id="page1" class="page active"></div>
+
+        <div id="page2" class="page"></div>
+
+        <div id="page3" class="page">
+          <div class="box" style="left:469px; top:151px; width:123px; height:31px;"><input type="text" class="typeable" id="p3box1" /></div>
+          <div class="box" style="left:418px; top:189px; width:169px; height:30px;"><input type="text" class="typeable" id="p3box2" /></div>
+          <div class="box" style="left:469px; top:284px; width:101px; height:31px;"><input type="text" class="typeable" id="p3box3" /></div>
+          <div class="box" style="left:575px; top:284px; width:101px; height:31px;"><input type="text" class="typeable" id="p3box4" /></div>
+          <div class="box" style="left:810px; top:284px; width:118px; height:31px;"><input type="text" class="typeable" id="p3box5" /></div>
+          <div class="box" style="left:575px; top:380px; width:96px; height:30px;"><input type="text" class="typeable" id="p3box6" /></div>
+          <div class="box" style="left:620px; top:416px; width:86px; height:30px;"><input type="text" class="typeable" id="p3box7" /></div>
+        </div>
+
+        <div id="page4" class="page" style="position:relative;">
+          <div style="position:absolute;top:0;left:0;width:100%;z-index:2;transform:scale(0.85);transform-origin:top center;display:flex;justify-content:center;padding-top:10px;">
+            <iframe src="https://www.geogebra.org/material/iframe/id/b3dvxbgp/width/1200/height/600/border/888888/rc/false/ai/false" width="1200" height="480" style="border:0;"></iframe>
+          </div>
+        </div>
+
+        <div id="page5" class="page">
+          <div class="box" style="left:410px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p5box1" /></div>
+          <div class="box" style="left:598px; top:127px; width:53px; height:36px;"><input type="text" class="typeable" id="p5box2" /></div>
+          <div class="box" style="left:801px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p5box3" /></div>
+          <div class="box" style="left:710px; top:197px; width:86px; height:57px;"><input type="text" class="typeable" data-correct="280" id="p5box4" /></div>
+          <div class="box" style="left:421px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p5box5" /></div>
+          <div class="box" style="left:517px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p5box6" /></div>
+          <div class="box" style="left:613px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p5box7" /></div>
+          <div class="box" style="left:306px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" data-correct="56" id="p5box8" style="background-color:#ffa577;" /></div>
+          <div class="box" style="left:382px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p5box9" style="background-color:#ffa577;" /></div>
+          <div class="box" style="left:471px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p5box10" style="background-color:#74b47b;" /></div>
+          <div class="box" style="left:555px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p5box11" style="background-color:#74b47b;" /></div>
+          <div class="box" style="left:641px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p5box12" style="background-color:#ff76d1;" /></div>
+          <div class="box" style="left:720px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p5box13" style="background-color:#ff76d1;" /></div>
+          <div class="box" style="left:808px; top:335px; width:87px; height:56px;"><input type="text" class="typeable" data-correct="262" id="p5box14" /></div>
+          <div class="box" style="left:75px; top:362px; width:156px; height:133px;">
+            <img src="https://daryeaye.github.io/gt5/net.gif" alt="Net Image" style="width:100%; height:100%;" />
+          </div>
+        </div>
+
+        <div id="page6" class="page">
+          <div class="box" style="left:410px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p6box1" /></div>
+          <div class="box" style="left:598px; top:127px; width:53px; height:36px;"><input type="text" class="typeable" id="p6box2" /></div>
+          <div class="box" style="left:801px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p6box3" /></div>
+          <div class="box" style="left:710px; top:197px; width:86px; height:57px;"><input type="text" class="typeable" data-correct="160" id="p6box4" /></div>
+          <div class="box" style="left:421px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p6box5" /></div>
+          <div class="box" style="left:517px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p6box6" /></div>
+          <div class="box" style="left:613px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p6box7" /></div>
+          <div class="box" style="left:306px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" data-correct="20" id="p6box8" style="background-color:#ffa577;" /></div>
+          <div class="box" style="left:382px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p6box9" style="background-color:#ffa577;" /></div>
+          <div class="box" style="left:471px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p6box10" style="background-color:#74b47b;" /></div>
+          <div class="box" style="left:555px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p6box11" style="background-color:#74b47b;" /></div>
+          <div class="box" style="left:641px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p6box12" style="background-color:#ff76d1;" /></div>
+          <div class="box" style="left:720px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p6box13" style="background-color:#ff76d1;" /></div>
+          <div class="box" style="left:808px; top:335px; width:87px; height:56px;"><input type="text" class="typeable" data-correct="184" id="p6box14" /></div>
+          <div class="box" style="left:75px; top:362px; width:156px; height:133px;">
+            <img src="https://daryeaye.github.io/gt5/net.gif" alt="Net Image" style="width:100%; height:100%;" />
+          </div>
+        </div>
+
+        <div id="page7" class="page">
+          <div class="box" style="left:410px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p7box1" /></div>
+          <div class="box" style="left:598px; top:127px; width:53px; height:36px;"><input type="text" class="typeable" id="p7box2" /></div>
+          <div class="box" style="left:801px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p7box3" /></div>
+          <div class="box" style="left:710px; top:197px; width:86px; height:57px;"><input type="text" class="typeable" data-correct="343" id="p7box4" /></div>
+          <div class="box" style="left:421px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p7box5" /></div>
+          <div class="box" style="left:517px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p7box6" /></div>
+          <div class="box" style="left:613px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p7box7" /></div>
+          <div class="box" style="left:306px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" data-correct="49" id="p7box8" style="background-color:#ffa577;" /></div>
+          <div class="box" style="left:382px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p7box9" style="background-color:#ffa577;" /></div>
+          <div class="box" style="left:471px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p7box10" style="background-color:#74b47b;" /></div>
+          <div class="box" style="left:555px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p7box11" style="background-color:#74b47b;" /></div>
+          <div class="box" style="left:641px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p7box12" style="background-color:#ff76d1;" /></div>
+          <div class="box" style="left:720px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p7box13" style="background-color:#ff76d1;" /></div>
+          <div class="box" style="left:808px; top:335px; width:87px; height:56px;"><input type="text" class="typeable" data-correct="294" id="p7box14" /></div>
+          <div class="box" style="left:75px; top:362px; width:156px; height:133px;">
+            <img src="https://daryeaye.github.io/gt5/net.gif" alt="Net Image" style="width:100%; height:100%;" />
+          </div>
+        </div>
+
+        <div id="page8" class="page"></div>
+
+        <div id="page9" class="page">
+          <div class="box" style="left:25px; top:69px; width:389px; height:132px;">
+            <input type="text" class="typeable largeFont" data-correct="2748" data-match="contains" id="p9box1" />
+          </div>
+          <div class="box" style="left:25px; top:256px; width:389px; height:131px;">
+            <input type="text" class="typeable largeFont" data-correct="9360" data-match="contains" id="p9box2" />
+          </div>
+        </div>
+
+        <div id="page10" class="page">
+          <div class="box" style="left:25px; top:69px; width:389px; height:132px;">
+            <input type="text" class="typeable largeFont" data-correct="13600" data-match="contains" id="p10box1" />
+          </div>
+          <div class="box" style="left:25px; top:256px; width:389px; height:131px;">
+            <input type="text" class="typeable largeFont" data-correct="105600" data-match="contains" id="p10box2" />
+          </div>
+        </div>
+
+        <div id="page11" class="page">
+          <div class="box" style="left:25px; top:69px; width:389px; height:132px;">
+            <input type="text" class="typeable largeFont" data-correct="4390" data-match="contains" id="p11box1" />
+          </div>
+          <div class="box" style="left:25px; top:256px; width:389px; height:131px;">
+            <input type="text" class="typeable largeFont" data-correct="19250" data-match="contains" id="p11box2" />
+          </div>
+        </div>
+
+        <div id="page12" class="page">
+          <div class="box" style="left:15px; top:233px; width:491px; height:153px;">
+            <input type="text" class="typeable largeFont" data-correct="200" data-match="contains" id="p12box1" />
+          </div>
+        </div>
+
+        <div id="page13" class="page">
+          <div class="box" style="left:19px; top:77px; width:381px; height:355px;">
+            <input type="text" class="typeable largeFont" data-correct="80000" data-match="contains" id="p13box1" />
+          </div>
+
+          <canvas id="drawCanvas" width="480" height="540" style="position:absolute;top:0;right:0;z-index:2;border:none;"></canvas>
+          <button id="resetDraw" style="position:absolute;bottom:10px;right:10px;z-index:3;">Reset</button>
+        </div>
+
+        <div id="page14" class="page">
+          <div class="box" style="left:19px; top:77px; width:381px; height:355px;">
+            <input type="text" class="typeable largeFont" data-correct="4200" data-match="contains" id="p14box1" />
+          </div>
+        </div>
+
+        <div id="page15" class="page"></div>
+        <div id="page16" class="page"></div>
+
+        <div id="page17" class="page">
+          <div class="box" style="left:118px; top:315px; width:65px; height:35px;"><input type="text" class="typeable" id="p17box1" /></div>
+          <div class="box" style="left:349px; top:350px; width:65px; height:35px;"><input type="text" class="typeable" id="p17box2" /></div>
+          <div class="box" style="left:214px; top:389px; width:65px; height:35px;"><input type="text" class="typeable" id="p17box3" /></div>
+          <div class="box" style="left:514px; top:294px; width:202px; height:123px;"><input type="text" class="typeable" id="p17box4" /></div>
+        </div>
+
+        <div id="page18" class="page">
+          <div class="box" style="left:80px; top:357px; width:252px; height:56px;"><input type="text" class="typeable" id="p18box1" /></div>
+          <div class="box" style="left:80px; top:420px; width:252px; height:30px;"><button id="unlockBtn">Unlock</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECOND CANVAS: Role selection + PDF viewer -->
+    <div id="role-container">
+      <div id="role-stage">
+        <!-- Hotspots scaled from 1600x900 -> 960x540 (x0.6) -->
+        <button class="role-hotspot" id="hotspot-officer"  title="Officer"
+          style="left:117px; top:73px; width:197px; height:166px;"></button>
+
+        <button class="role-hotspot" id="hotspot-professor" title="Professor"
+          style="left:382px; top:73px; width:197px; height:166px;"></button>
+
+        <button class="role-hotspot" id="hotspot-hacker"   title="Hacker"
+          style="left:647px; top:73px; width:197px; height:166px;"></button>
+
+        <button class="role-hotspot" id="hotspot-video" title="What is the role for?"
+          style="left:301px; top:460px; width:358px; height:31px;"></button>
+      </div>
+
+      <div id="pdf-view">
+        <div id="pdf-scroll"></div>
+      </div>
+    </div>
+
+    <!-- Translation widget -->
+    <div id="side-widget">
+      <p class="title">Need translation?</p>
+      <button id="select-text">Select Text</button>
+      <p><a href="https://translate.google.com/?sl=en&tl=es&op=images" target="_blank">Click me and paste from clipboard</a></p>
+    </div>
+  </div>
+
+  <script>
+    // PDF.js worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+    const ROLE_PDFS = {
+      officer:   "https://daryeaye.github.io/geotopia/GT1%20Officer+.pdf",
+      professor: "https://daryeaye.github.io/geotopia/GT1%20Professor+.pdf",
+      hacker:    "https://daryeaye.github.io/geotopia/GT1%20Hacker+.pdf"
+    };
+
+    const roleStage = document.getElementById("role-stage");
+    const pdfView   = document.getElementById("pdf-view");
+    const pdfScroll = document.getElementById("pdf-scroll");
+
+    async function loadPdfInSecondCanvas(url){
+      roleStage.style.display = "none";
+      pdfView.style.display = "block";
+      pdfScroll.innerHTML = "";
+
+      try{
+        const loadingTask = pdfjsLib.getDocument({ url });
+        const pdf = await loadingTask.promise;
+
+        const targetWidth = 940;
+        for(let pageNum=1; pageNum<=pdf.numPages; pageNum++){
+          const page = await pdf.getPage(pageNum);
+
+          const viewport1 = page.getViewport({ scale: 1 });
+          const scale = targetWidth / viewport1.width;
+          const viewport = page.getViewport({ scale });
+
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          canvas.width = Math.floor(viewport.width);
+          canvas.height = Math.floor(viewport.height);
+
+          pdfScroll.appendChild(canvas);
+          await page.render({ canvasContext: ctx, viewport }).promise;
+        }
+      }catch(err){
+        console.error(err);
+        alert("PDF failed to load in the canvas. Check Console for details.");
+        pdfView.style.display = "none";
+        roleStage.style.display = "block";
+      }
+    }
+
+    document.getElementById("hotspot-officer").addEventListener("click", () => loadPdfInSecondCanvas(ROLE_PDFS.officer));
+    document.getElementById("hotspot-professor").addEventListener("click", () => loadPdfInSecondCanvas(ROLE_PDFS.professor));
+    document.getElementById("hotspot-hacker").addEventListener("click", () => loadPdfInSecondCanvas(ROLE_PDFS.hacker));
+    document.getElementById("hotspot-video").addEventListener("click", () => {
+      window.open("https://www.youtube.com/watch?v=Fj98o3aFfk8", "_blank");
+    });
+
+    // ----------------- Original app logic (kept) -----------------
+    let currentPage = 1, totalPages = 18, maxPageVisited = 1;
+
+    function updateProgress(){
+      const p = (maxPageVisited / totalPages) * 100;
+      document.getElementById("progress").style.width = p + "%";
+      document.getElementById("progressText").innerText = p.toFixed(0) + "% completed";
+    }
+
+    function showPage(p){
+      for(let i=1;i<=totalPages;i++){
+        document.getElementById("page"+i).classList.remove("active");
+      }
+      document.getElementById("page"+p).classList.add("active");
+
+      document.getElementById("prev-btn").style.display = p===1 ? "none" : "inline-block";
+      document.getElementById("next-btn").style.display = p===totalPages ? "none" : "inline-block";
+
+      updateProgress();
+    }
+
+    function prevPage(){
+      if(currentPage>1){
+        currentPage--;
+        showPage(currentPage);
+      }
+    }
+
+    function nextPage(){
+      if(currentPage===3){
+        const inputs = document.querySelectorAll("#page3 input[type='text']");
+        const cnt = Array.from(inputs).filter(x=>x.value.trim()!=="").length;
+        if(cnt<4){ alert("🛑 Annie said you are incorrect."); return; }
+      }
+
+      if(currentPage===17){
+        const inputs=document.querySelectorAll("#page17 input[type='text']");
+        for(let inp of inputs){
+          if(inp.value.trim()===""){ alert("🛑 Annie said you are incorrect."); return; }
+        }
+      }
+
+      const chk = document.querySelectorAll("#page"+currentPage+" input[data-correct]");
+      for(let inp of chk){
+        const exp = inp.getAttribute("data-correct");
+        const mt  = inp.getAttribute("data-match");
+        const ent = inp.value.trim().replace(/,/g,"");
+        if(mt==="contains"){
+          if(!ent.includes(exp)){ alert("🛑 Annie said you are incorrect."); return; }
+        }else{
+          if(ent!==exp){ alert("🛑 Annie said you are incorrect."); return; }
+        }
+      }
+
+      if(currentPage<totalPages){
+        currentPage++;
+        if(currentPage>maxPageVisited) maxPageVisited=currentPage;
+        showPage(currentPage);
+      }
+    }
+
+    function confirmName(){
+      const ni=document.getElementById("username"), name=ni.value.trim();
+      if(name!==""){
+        localStorage.setItem("username",name);
+        ni.disabled=true;
+        alert("Name confirmed as: "+name);
+      }else{
+        alert("Please enter a name.");
+      }
+    }
+
+    function setupPersistence(){
+      const n=localStorage.getItem("username"), ni=document.getElementById("username");
+      if(n!==null && n!==""){ ni.value=n; ni.disabled=true; }
+
+      document.querySelectorAll("input[type='text']").forEach(el=>{
+        const key=el.id, st=localStorage.getItem(key);
+        if(st!==null) el.value=st;
+        el.addEventListener("input",()=>{ localStorage.setItem(key, el.value); });
+      });
+    }
+
+    function setupCanvas(){
+      const c=document.getElementById("drawCanvas");
+      if(!c) return;
+      const ctx=c.getContext("2d");
+      let drawing=false, lineDone=false, startX, startY;
+
+      c.addEventListener("mousedown",e=>{
+        if(lineDone) return;
+        drawing=true;
+        const r=c.getBoundingClientRect();
+        startX=e.clientX-r.left;
+        startY=e.clientY-r.top;
+      });
+
+      c.addEventListener("mousemove",e=>{
+        if(!drawing || lineDone) return;
+        const r=c.getBoundingClientRect(), curX=e.clientX-r.left, curY=e.clientY-r.top;
+        ctx.clearRect(0,0,c.width,c.height);
+        ctx.beginPath();
+        ctx.moveTo(startX,startY);
+        ctx.lineTo(curX,curY);
+        ctx.strokeStyle="red";
+        ctx.lineWidth=2;
+        ctx.stroke();
+      });
+
+      c.addEventListener("mouseup",e=>{
+        if(!drawing || lineDone) return;
+        const r=c.getBoundingClientRect(), endX=e.clientX-r.left, endY=e.clientY-r.top;
+        ctx.clearRect(0,0,c.width,c.height);
+        ctx.beginPath();
+        ctx.moveTo(startX,startY);
+        ctx.lineTo(endX,endY);
+        ctx.strokeStyle="red";
+        ctx.lineWidth=2;
+        ctx.stroke();
+        lineDone=true;
+        drawing=false;
+      });
+
+      document.getElementById("resetDraw").addEventListener("click",()=>{
+        ctx.clearRect(0,0,c.width,c.height);
+        lineDone=false;
+      });
+    }
+
+    function setupUnlock(){
+      const btn=document.getElementById("unlockBtn");
+      if(!btn) return;
+
+      btn.addEventListener("click",()=>{
+        const inp=document.getElementById("p18box1");
+        const code=inp.value.trim();
+        if(code==="31621"){
+          window.open("https://daryeaye.github.io/geotopia/weikeduo.pdf","_blank");
+          inp.value="";
+          localStorage.removeItem("p18box1");
+        }else{
+          alert("🛑 Annie said you are incorrect.");
+        }
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded",()=>{
+      showPage(currentPage);
+      setupPersistence();
+      setupCanvas();
+      setupUnlock();
+    });
+
+    // Translation widget screenshot selection (captures app-container like your original)
+    document.getElementById("select-text").addEventListener("click",function(){
+      const o=document.createElement("div");
+      o.id="selection-overlay";
+      document.body.appendChild(o);
+
+      let sX,sY,sB;
+      o.addEventListener("mousedown",function(e){
+        sX=e.clientX; sY=e.clientY;
+        sB=document.createElement("div");
+        sB.id="selection-box";
+        sB.style.left=sX+"px";
+        sB.style.top=sY+"px";
+        sB.style.width="0px";
+        sB.style.height="0px";
+        o.appendChild(sB);
+
+        function mH(e){
+          const cX=e.clientX,cY=e.clientY,l=Math.min(sX,cX),t=Math.min(sY,cY),w=Math.abs(cX-sX),h=Math.abs(cY-sY);
+          sB.style.left=l+"px"; sB.style.top=t+"px"; sB.style.width=w+"px"; sB.style.height=h+"px";
+        }
+
+        function uH(e){
+          o.removeEventListener("mousemove",mH);
+          o.removeEventListener("mouseup",uH);
+          const r=sB.getBoundingClientRect();
+          document.body.removeChild(o);
+
+          const T=document.getElementById("app-container"), TR=T.getBoundingClientRect();
+          html2canvas(T,{useCORS:true,allowTaint:false}).then(canvas=>{
+            const sf=canvas.width/TR.width,
+                  sx=(r.left-TR.left)*sf,
+                  sy=(r.top-TR.top)*sf,
+                  sw=r.width*sf,
+                  sh=r.height*sf,
+                  cc=document.createElement("canvas");
+            cc.width=sw; cc.height=sh;
+            const ctx=cc.getContext("2d");
+            ctx.drawImage(canvas,sx,sy,sw,sh,0,0,sw,sh);
+            cc.toBlob(blob=>{
+              if(blob){
+                const itm=new ClipboardItem({"image/png":blob});
+                navigator.clipboard.write([itm]).then(()=>{
+                  alert("Screenshot copied to clipboard.");
+                }).catch(err=>{
+                  console.error("Failed to copy screenshot to clipboard",err);
+                  alert("Failed to copy screenshot to clipboard.");
+                });
+              }
+            });
+          });
+        }
+
+        o.addEventListener("mousemove",mH);
+        o.addEventListener("mouseup",uH);
+      });
+    });
+  </script>
+
+  <!-- @XDY. All rights reserved. This code is the intellectual property of XDY.
+       Unauthorized copying, reproduction, or redistribution is strictly prohibited.
+       For educational use only. Contact the author for permissions. -->
+</body>
+</html>
