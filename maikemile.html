@@ -5,23 +5,28 @@
   <title>Lost Treasure Pt5 Annie</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet" />
 
-  <!-- html2canvas (translation widget screenshot) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-  <!-- PDF.js (renders PDFs in-page, works in Google Sites) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
   <style>
-    body, html {
+    html, body {
       margin: 0;
       padding: 0;
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start; /* allow scroll, prevent cut-off */
+      overflow-y: auto;
       background: url('https://daryeaye.github.io/geotopia/thatsit.png') no-repeat center center fixed;
       background-size: cover;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 10px 0 40px;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
     }
 
     #app-container {
@@ -29,62 +34,229 @@
       flex-direction: column;
       align-items: center;
       width: 100%;
-      padding-bottom: 40px;
     }
 
-    /* Sticky header */
+    #tutorialOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #tutorialBox {
+      position: relative;
+      width: min(860px, 88vw);
+      height: min(500px, 78vh);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #tutorialImage {
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+    }
+
+    #tutorialNext {
+      position: absolute;
+      right: -18px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 56px;
+      height: 50%;
+      min-height: 140px;
+      border: none;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.88);
+      color: #111;
+      font-size: 42px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+      line-height: 1;
+      font-family: "Love Ya Like A Sister", cursive;
+    }
+
+    #tutorialNext:hover {
+      background: rgba(255,255,255,0.96);
+    }
+
     #header {
       width: 960px;
       background: #eee;
       padding: 10px;
       margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 2000;
       box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+      box-sizing: border-box;
     }
 
-    #header-top {
+    #topAuthRow, #progressRow {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    #progressBar { width: 100%; background: #ccc; height: 20px; }
-    #progress { width: 0%; background: green; height: 100%; }
-
-    /* Main stage row: nav on left, canvas centered */
-    #stage-row {
-      width: 960px;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* Bigger buttons, same position idea (left side, vertically centered) */
-    #nav-buttons {
-      position: absolute;
-      left: -150px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
       gap: 10px;
-      margin: 0;
+      width: 100%;
+      box-sizing: border-box;
     }
 
-    #nav-buttons button {
-      font-family: "Caveat", cursive;
-      font-size: 26px;        /* bigger */
+    #topAuthLeft {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    #logoutBtn,
+    #introBtn,
+    #authRegisterBtn,
+    #authLoginBtn,
+    #openFileBtn,
+    #prev-btn,
+    #next-btn,
+    #unlockBtn,
+    #collapse-widget,
+    #resetDraw,
+    #side-widget button:not(#collapse-widget) {
+      font-family: "Love Ya Like A Sister", cursive;
+    }
+
+    #logoutBtn,
+    #introBtn,
+    #authRegisterBtn,
+    #authLoginBtn {
+      font-size: 22px;
+      padding: 6px 12px;
+      cursor: pointer;
       background-color: lightblue;
       border: none;
-      padding: 14px 26px;     /* bigger */
-      cursor: pointer;
+      line-height: 1;
       border-radius: 6px;
+    }
+
+    #authStatus {
+      font-size: 15px;
+      font-family: "Comic Sans MS", sans-serif;
+      color: #222;
+      min-width: 170px;
+      text-align: right;
+    }
+
+    #authOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.78);
+      z-index: 15000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #authOverlayBox {
+      width: min(430px, 88vw);
+      background: #fffdf7;
+      border: 3px solid #000;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      padding: 24px 20px 18px;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    #authOverlayTitle {
+      font-family: "Love Ya Like A Sister", cursive;
+      font-size: 34px;
+      line-height: 1.05;
+      margin-bottom: 10px;
+      color: #111;
+    }
+
+    #authOverlayText {
+      font-family: "Comic Sans MS", sans-serif;
+      font-size: 16px;
+      line-height: 1.35;
+      color: #222;
+      margin-bottom: 14px;
+    }
+
+    #auth-username,
+    #auth-password {
+      width: 100%;
+      font-size: 18px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      border: 2px solid #000;
+      border-radius: 8px;
+      font-family: "Comic Sans MS", sans-serif;
+      background: #fff;
+    }
+
+    #authOverlayButtons {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    #authModalStatus {
+      font-family: "Comic Sans MS", sans-serif;
+      font-size: 14px;
+      line-height: 1.3;
+      min-height: 18px;
+      margin-top: 12px;
+      color: #222;
+    }
+
+    #progressBar {
+      flex: 1;
+      background: #ccc;
+      height: 20px;
+      margin: 0 10px 0 0;
+      position: relative;
+    }
+
+    #progress {
+      background: green;
+      height: 100%;
+      width: 0%;
+    }
+
+    #progressText {
+      font-size: 16px;
       white-space: nowrap;
-      margin: 0;
+    }
+
+    #saveStatus {
+      font-size: 13px;
+      color: #444;
+      min-width: 120px;
+      text-align: right;
+    }
+
+    #main-area {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    #main-wrapper {
+      position: relative;
+      width: 960px;
     }
 
     #container {
@@ -103,582 +275,1504 @@
       width: 960px;
       height: 540px;
       display: none;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      overflow: hidden;
     }
-    .page.active { display: block; }
 
-    .box { position: absolute; }
+    .page.active {
+      display: block;
+    }
 
-    input.typeable {
+    .box {
       position: absolute;
+    }
+
+    .typeable,
+    textarea.typeable {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
       font-family: "Comic Sans MS", sans-serif;
       font-size: 22px;
       border: 1px solid black;
       background: rgba(173,216,230,0.5);
-      width: 100%;
-      height: 100%;
-      box-sizing: border-box;
       text-align: center;
+      padding: 2px 6px;
+      resize: none;
     }
-    .largeFont { font-size: 24px; }
 
-    /* Page backgrounds */
-    #page1 { background:url("https://daryeaye.github.io/gt5/5-01.jpg") no-repeat center; background-size:contain }
-    #page2 { background:url("https://daryeaye.github.io/gt5/5-02.jpg") no-repeat center; background-size:contain }
-    #page3 { background:url("https://daryeaye.github.io/gt5/5-03.jpg") no-repeat center; background-size:contain }
-    #page4 { background:url("https://daryeaye.github.io/gt5/5-04.jpg") no-repeat center; background-size:contain }
-    #page5 { background:url("https://daryeaye.github.io/gt5/5-05.jpg") no-repeat center; background-size:contain }
-    #page6 { background:url("https://daryeaye.github.io/gt5/5-06.jpg") no-repeat center; background-size:contain }
-    #page7 { background:url("https://daryeaye.github.io/gt5/5-07.jpg") no-repeat center; background-size:contain }
-    #page8 { background:url("https://daryeaye.github.io/gt5/5-08.jpg") no-repeat center; background-size:contain }
-    #page9 { background:url("https://daryeaye.github.io/gt5/5-09.jpg") no-repeat center; background-size:contain }
-    #page10{ background:url("https://daryeaye.github.io/gt5/5-10.jpg") no-repeat center; background-size:contain }
-    #page11{ background:url("https://daryeaye.github.io/gt5/5-11.jpg") no-repeat center; background-size:contain }
-    #page12{ background:url("https://daryeaye.github.io/gt5/5-12.jpg") no-repeat center; background-size:contain }
-    #page13{ background:url("https://daryeaye.github.io/gt5/5-13.jpg") no-repeat center; background-size:contain }
-    #page14{ background:url("https://daryeaye.github.io/gt5/5-14.jpg") no-repeat center; background-size:contain }
-    #page15{ background:url("https://daryeaye.github.io/gt5/5-15.jpg") no-repeat center; background-size:contain }
-    #page16{ background:url("https://daryeaye.github.io/gt5/5-16.jpg") no-repeat center; background-size:contain }
-    #page17{ background:url("https://daryeaye.github.io/gt5/5-17.jpg") no-repeat center; background-size:contain }
-    #page18{ background:url("https://daryeaye.github.io/gt5/5-18.jpg") no-repeat center; background-size:contain }
+    .largeFont {
+      font-size: 24px;
+    }
 
-    /* SECOND CANVAS (Role + PDF viewer) */
+    #page1 { background-image: url("https://daryeaye.github.io/gt5/5-01.jpg"); }
+    #page2 { background-image: url("https://daryeaye.github.io/gt5/5-02.jpg"); }
+    #page3 { background-image: url("https://daryeaye.github.io/gt5/5-03.jpg"); }
+    #page4 { background-image: url("https://daryeaye.github.io/gt5/5-04.jpg"); }
+    #page5 { background-image: url("https://daryeaye.github.io/gt5/5-05.jpg"); }
+    #page6 { background-image: url("https://daryeaye.github.io/gt5/5-06.jpg"); }
+    #page7 { background-image: url("https://daryeaye.github.io/gt5/5-07.jpg"); }
+    #page8 { background-image: url("https://daryeaye.github.io/gt5/5-08.jpg"); }
+    #page9 { background-image: url("https://daryeaye.github.io/gt5/5-09.jpg"); }
+    #page10 { background-image: url("https://daryeaye.github.io/gt5/5-10.jpg"); }
+    #page11 { background-image: url("https://daryeaye.github.io/gt5/5-11.jpg"); }
+    #page12 { background-image: url("https://daryeaye.github.io/gt5/5-12.jpg"); }
+    #page13 { background-image: url("https://daryeaye.github.io/gt5/5-13.jpg"); }
+    #page14 { background-image: url("https://daryeaye.github.io/gt5/5-14.jpg"); }
+    #page15 { background-image: url("https://daryeaye.github.io/gt5/5-15.jpg"); }
+    #page16 { background-image: url("https://daryeaye.github.io/gt5/5-16.jpg"); }
+    #page17 { background-image: url("https://daryeaye.github.io/gt5/5-17.jpg"); }
+    #page18 { background-image: url("https://daryeaye.github.io/gt5/5-18.jpg"); }
+
+    #nav-buttons {
+      position: absolute;
+      top: 50%;
+      left: -150px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 3000;
+    }
+
+    button {
+      font-size: 20px;
+      background-color: lightblue;
+      border: none;
+      padding: 10px 20px;
+      margin: 0;
+      cursor: pointer;
+    }
+
     #role-container {
+      position: relative;
       width: 960px;
       height: 540px;
       border: 1px solid #ccc;
-      margin-top: 16px;
-      position: relative;
+      box-sizing: border-box;
+      margin-top: 10px;
       overflow: hidden;
       background: #fff;
     }
 
     #role-stage {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 960px;
       height: 540px;
-      position: absolute;
-      inset: 0;
       background: url('https://daryeaye.github.io/geotopia/role.jpg') no-repeat center/contain;
-      background-color: #ffffff;
+      background-color: #fff;
     }
 
     .role-hotspot {
       position: absolute;
+      background: rgba(255,0,0,0);
       border: none;
-      background: rgba(255,0,0,0); /* invisible */
-      cursor: pointer;
       padding: 0;
+      margin: 0;
+      cursor: pointer;
     }
 
-    #pdf-view {
+    #pdfViewer {
       position: absolute;
       inset: 0;
       display: none;
+      overflow-y: auto;
+      overflow-x: hidden;
       background: #fff;
+      z-index: 5;
     }
-    #pdf-scroll {
+
+    .pdfPageCanvas {
+      display: block;
+      margin: 12px auto;
+      background: white;
+    }
+
+    #pdfStatus {
       position: absolute;
-      inset: 0;
-      overflow: auto;
+      top: 10px;
+      left: 10px;
+      font-family: "Comic Sans MS", sans-serif;
+      font-size: 14px;
+      color: #111;
+      background: rgba(255,255,255,0.85);
+      padding: 6px 10px;
+      border: 1px solid rgba(0,0,0,0.15);
+      border-radius: 6px;
+      z-index: 10;
+      display: none;
+    }
+
+    #role-container.pdf-mode #role-stage {
+      display: none;
+    }
+
+    #openFileWrap {
+      width: 960px;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    #openFileBtn {
+      font-size: 16px;
+      padding: 8px 16px;
+      background: lightblue;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+      line-height: 1;
+    }
+
+    #side-widget {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 200px;
+      height: 200px;
+      background: #f9f9f9;
+      border: 1px solid #ccc;
       padding: 10px;
       box-sizing: border-box;
-    }
-    #pdf-scroll canvas {
-      display: block;
-      margin: 0 auto 12px auto;
-      border: 1px solid #ddd;
+      font-family: 'Caveat', cursive;
+      z-index: 999;
+      transition: all 0.25s ease;
     }
 
-    /* Translation widget */
-    #side-widget{
-      position:fixed;
-      top:20px;
-      right:20px;
-      width:200px;
-      height:200px;
-      background:#f9f9f9;
-      border:1px solid #ccc;
-      padding:10px;
-      box-sizing:border-box;
-      font-family:'Caveat',cursive;
-      z-index:999
+    #side-widget.collapsed {
+      width: 120px;
+      height: 24px;
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: rgba(249,249,249,0.95);
+      border: 1px solid #ccc;
+      font-family: "Comic Sans MS", sans-serif;
+      font-size: 8px;
+      line-height: 1;
+      white-space: nowrap;
     }
-    #side-widget p.title{font-size:24px;text-align:center;margin:0 0 10px}
-    #side-widget button,#side-widget a{
-      display:block;margin:0 auto;font-size:20px;cursor:pointer;text-align:center;
-      background:lightblue;border:none;padding:10px;text-decoration:none;color:inherit
+
+    #side-widget.collapsed * {
+      display: none !important;
     }
-    #selection-overlay{position:fixed;top:0;left:0;width:100%;height:100%;cursor:crosshair;z-index:1000}
-    #selection-box{position:absolute;border:2px dashed red;background:rgba(0,0,0,0.1)}
+
+    #side-widget.collapsed::after {
+      content: "Translation";
+    }
+
+    #collapse-widget {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 22px;
+      height: 22px;
+      padding: 0;
+      line-height: 1;
+      font-size: 14px;
+      background: lightblue;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: "Comic Sans MS", sans-serif;
+    }
+
+    #side-widget p.title {
+      font-size: 24px;
+      text-align: center;
+      margin: 0 0 10px;
+    }
+
+    #side-widget button:not(#collapse-widget) {
+      display: block;
+      margin: 0 auto;
+      font-size: 20px;
+      cursor: pointer;
+      text-align: center;
+      background: lightblue;
+      border: none;
+      padding: 10px;
+      font-family: "Comic Sans MS", sans-serif;
+    }
+
+    #side-widget a {
+      display: block;
+      margin: 0 auto;
+      font-size: 14px;
+      cursor: pointer;
+      text-align: center;
+      background: lightblue;
+      border: none;
+      padding: 6px;
+      text-decoration: none;
+      color: inherit;
+      font-family: "Comic Sans MS", sans-serif;
+    }
+
+    #selection-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+      z-index: 1000;
+    }
+
+    #selection-box {
+      position: absolute;
+      border: 2px dashed red;
+      background: rgba(0,0,0,0.1);
+    }
+
+    #customPopupOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 20000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #customPopupBox {
+      width: min(430px, 88vw);
+      background: #fffdf7;
+      border: 3px solid #000;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      padding: 24px 20px 18px;
+      text-align: center;
+      font-family: "Comic Sans MS", sans-serif;
+    }
+
+    #customPopupMessage {
+      font-size: 24px;
+      line-height: 1.35;
+      color: #111;
+      margin-bottom: 18px;
+    }
+
+    #customPopupButtons {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .popupBtn {
+      font-family: "Love Ya Like A Sister", cursive;
+      font-size: 24px;
+      background: lightblue;
+      border: 2px solid #000;
+      border-radius: 10px;
+      padding: 8px 20px;
+      cursor: pointer;
+    }
+
+    #pageTransitionOverlay {
+      position: absolute;
+      inset: 0;
+      background: #000;
+      z-index: 10050;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+    }
+
+    #resetDraw {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      z-index: 3;
+      font-size: 18px;
+      background-color: lightblue;
+      border: none;
+      padding: 6px 12px;
+      cursor: pointer;
+      border-radius: 6px;
+      line-height: 1;
+    }
   </style>
 </head>
-
 <body>
+  <div id="tutorialOverlay">
+    <div id="tutorialBox">
+      <img id="tutorialImage" alt="Tutorial" />
+      <button id="tutorialNext" type="button">›</button>
+    </div>
+  </div>
+
+  <div id="customPopupOverlay">
+    <div id="customPopupBox">
+      <div id="customPopupMessage"></div>
+      <div id="customPopupButtons"></div>
+    </div>
+  </div>
+
   <div id="app-container">
     <div id="header">
-      <div id="header-top">
-        <div>
-          <input type="text" id="username" placeholder="Enter your name" style="font-size:16px; padding:5px;" />
-          <button id="confirmBtn" onclick="confirmName()">Confirm</button>
-          <button id="introBtn" onclick="openIntro()">Intro</button>
+      <div id="topAuthRow">
+        <div id="topAuthLeft">
+          <button id="logoutBtn" type="button" style="display:none;">Log Out</button>
+          <button id="introBtn" type="button">Intro</button>
         </div>
-      </div>
-      <div id="progressBar"><div id="progress"></div></div>
-      <span id="progressText">0% completed</span>
-    </div>
-
-    <div id="stage-row">
-      <div id="nav-buttons">
-        <button id="prev-btn" onclick="prevPage()">Previous</button>
-        <button id="next-btn" onclick="nextPage()">Next</button>
+        <div id="authStatus">Not logged in</div>
       </div>
 
-      <div id="container">
-        <!-- PAGE 1: role boxes removed (now in second canvas) -->
-        <div id="page1" class="page active"></div>
-
-        <div id="page2" class="page"></div>
-
-        <div id="page3" class="page">
-          <div class="box" style="left:469px; top:151px; width:123px; height:31px;"><input type="text" class="typeable" id="p3box1" /></div>
-          <div class="box" style="left:418px; top:189px; width:169px; height:30px;"><input type="text" class="typeable" id="p3box2" /></div>
-          <div class="box" style="left:469px; top:284px; width:101px; height:31px;"><input type="text" class="typeable" id="p3box3" /></div>
-          <div class="box" style="left:575px; top:284px; width:101px; height:31px;"><input type="text" class="typeable" id="p3box4" /></div>
-          <div class="box" style="left:810px; top:284px; width:118px; height:31px;"><input type="text" class="typeable" id="p3box5" /></div>
-          <div class="box" style="left:575px; top:380px; width:96px; height:30px;"><input type="text" class="typeable" id="p3box6" /></div>
-          <div class="box" style="left:620px; top:416px; width:86px; height:30px;"><input type="text" class="typeable" id="p3box7" /></div>
-        </div>
-
-        <div id="page4" class="page" style="position:relative;">
-          <div style="position:absolute;top:0;left:0;width:100%;z-index:2;transform:scale(0.85);transform-origin:top center;display:flex;justify-content:center;padding-top:10px;">
-            <iframe src="https://www.geogebra.org/material/iframe/id/b3dvxbgp/width/1200/height/600/border/888888/rc/false/ai/false" width="1200" height="480" style="border:0;"></iframe>
-          </div>
-        </div>
-
-        <div id="page5" class="page">
-          <div class="box" style="left:410px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p5box1" /></div>
-          <div class="box" style="left:598px; top:127px; width:53px; height:36px;"><input type="text" class="typeable" id="p5box2" /></div>
-          <div class="box" style="left:801px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p5box3" /></div>
-          <div class="box" style="left:710px; top:197px; width:86px; height:57px;"><input type="text" class="typeable" data-correct="280" id="p5box4" /></div>
-          <div class="box" style="left:421px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p5box5" /></div>
-          <div class="box" style="left:517px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p5box6" /></div>
-          <div class="box" style="left:613px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p5box7" /></div>
-          <div class="box" style="left:306px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" data-correct="56" id="p5box8" style="background-color:#ffa577;" /></div>
-          <div class="box" style="left:382px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p5box9" style="background-color:#ffa577;" /></div>
-          <div class="box" style="left:471px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p5box10" style="background-color:#74b47b;" /></div>
-          <div class="box" style="left:555px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p5box11" style="background-color:#74b47b;" /></div>
-          <div class="box" style="left:641px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p5box12" style="background-color:#ff76d1;" /></div>
-          <div class="box" style="left:720px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p5box13" style="background-color:#ff76d1;" /></div>
-          <div class="box" style="left:808px; top:335px; width:87px; height:56px;"><input type="text" class="typeable" data-correct="262" id="p5box14" /></div>
-          <div class="box" style="left:75px; top:362px; width:156px; height:133px;">
-            <img src="https://daryeaye.github.io/gt5/net.gif" alt="Net Image" style="width:100%; height:100%;" />
-          </div>
-        </div>
-
-        <div id="page6" class="page">
-          <div class="box" style="left:410px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p6box1" /></div>
-          <div class="box" style="left:598px; top:127px; width:53px; height:36px;"><input type="text" class="typeable" id="p6box2" /></div>
-          <div class="box" style="left:801px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p6box3" /></div>
-          <div class="box" style="left:710px; top:197px; width:86px; height:57px;"><input type="text" class="typeable" data-correct="160" id="p6box4" /></div>
-          <div class="box" style="left:421px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p6box5" /></div>
-          <div class="box" style="left:517px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p6box6" /></div>
-          <div class="box" style="left:613px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p6box7" /></div>
-          <div class="box" style="left:306px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" data-correct="20" id="p6box8" style="background-color:#ffa577;" /></div>
-          <div class="box" style="left:382px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p6box9" style="background-color:#ffa577;" /></div>
-          <div class="box" style="left:471px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p6box10" style="background-color:#74b47b;" /></div>
-          <div class="box" style="left:555px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p6box11" style="background-color:#74b47b;" /></div>
-          <div class="box" style="left:641px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p6box12" style="background-color:#ff76d1;" /></div>
-          <div class="box" style="left:720px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p6box13" style="background-color:#ff76d1;" /></div>
-          <div class="box" style="left:808px; top:335px; width:87px; height:56px;"><input type="text" class="typeable" data-correct="184" id="p6box14" /></div>
-          <div class="box" style="left:75px; top:362px; width:156px; height:133px;">
-            <img src="https://daryeaye.github.io/gt5/net.gif" alt="Net Image" style="width:100%; height:100%;" />
-          </div>
-        </div>
-
-        <div id="page7" class="page">
-          <div class="box" style="left:410px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p7box1" /></div>
-          <div class="box" style="left:598px; top:127px; width:53px; height:36px;"><input type="text" class="typeable" id="p7box2" /></div>
-          <div class="box" style="left:801px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p7box3" /></div>
-          <div class="box" style="left:710px; top:197px; width:86px; height:57px;"><input type="text" class="typeable" data-correct="343" id="p7box4" /></div>
-          <div class="box" style="left:421px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p7box5" /></div>
-          <div class="box" style="left:517px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p7box6" /></div>
-          <div class="box" style="left:613px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p7box7" /></div>
-          <div class="box" style="left:306px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" data-correct="49" id="p7box8" style="background-color:#ffa577;" /></div>
-          <div class="box" style="left:382px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p7box9" style="background-color:#ffa577;" /></div>
-          <div class="box" style="left:471px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p7box10" style="background-color:#74b47b;" /></div>
-          <div class="box" style="left:555px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p7box11" style="background-color:#74b47b;" /></div>
-          <div class="box" style="left:641px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p7box12" style="background-color:#ff76d1;" /></div>
-          <div class="box" style="left:720px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p7box13" style="background-color:#ff76d1;" /></div>
-          <div class="box" style="left:808px; top:335px; width:87px; height:56px;"><input type="text" class="typeable" data-correct="294" id="p7box14" /></div>
-          <div class="box" style="left:75px; top:362px; width:156px; height:133px;">
-            <img src="https://daryeaye.github.io/gt5/net.gif" alt="Net Image" style="width:100%; height:100%;" />
-          </div>
-        </div>
-
-        <div id="page8" class="page"></div>
-
-        <div id="page9" class="page">
-          <div class="box" style="left:25px; top:69px; width:389px; height:132px;">
-            <input type="text" class="typeable largeFont" data-correct="2748" data-match="contains" id="p9box1" />
-          </div>
-          <div class="box" style="left:25px; top:256px; width:389px; height:131px;">
-            <input type="text" class="typeable largeFont" data-correct="9360" data-match="contains" id="p9box2" />
-          </div>
-        </div>
-
-        <div id="page10" class="page">
-          <div class="box" style="left:25px; top:69px; width:389px; height:132px;">
-            <input type="text" class="typeable largeFont" data-correct="13600" data-match="contains" id="p10box1" />
-          </div>
-          <div class="box" style="left:25px; top:256px; width:389px; height:131px;">
-            <input type="text" class="typeable largeFont" data-correct="105600" data-match="contains" id="p10box2" />
-          </div>
-        </div>
-
-        <div id="page11" class="page">
-          <div class="box" style="left:25px; top:69px; width:389px; height:132px;">
-            <input type="text" class="typeable largeFont" data-correct="4390" data-match="contains" id="p11box1" />
-          </div>
-          <div class="box" style="left:25px; top:256px; width:389px; height:131px;">
-            <input type="text" class="typeable largeFont" data-correct="19250" data-match="contains" id="p11box2" />
-          </div>
-        </div>
-
-        <div id="page12" class="page">
-          <div class="box" style="left:15px; top:233px; width:491px; height:153px;">
-            <input type="text" class="typeable largeFont" data-correct="200" data-match="contains" id="p12box1" />
-          </div>
-        </div>
-
-        <div id="page13" class="page">
-          <div class="box" style="left:19px; top:77px; width:381px; height:355px;">
-            <input type="text" class="typeable largeFont" data-correct="80000" data-match="contains" id="p13box1" />
-          </div>
-
-          <canvas id="drawCanvas" width="480" height="540" style="position:absolute;top:0;right:0;z-index:2;border:none;"></canvas>
-          <button id="resetDraw" style="position:absolute;bottom:10px;right:10px;z-index:3;">Reset</button>
-        </div>
-
-        <div id="page14" class="page">
-          <div class="box" style="left:19px; top:77px; width:381px; height:355px;">
-            <input type="text" class="typeable largeFont" data-correct="4200" data-match="contains" id="p14box1" />
-          </div>
-        </div>
-
-        <div id="page15" class="page"></div>
-        <div id="page16" class="page"></div>
-
-        <div id="page17" class="page">
-          <div class="box" style="left:118px; top:315px; width:65px; height:35px;"><input type="text" class="typeable" id="p17box1" /></div>
-          <div class="box" style="left:349px; top:350px; width:65px; height:35px;"><input type="text" class="typeable" id="p17box2" /></div>
-          <div class="box" style="left:214px; top:389px; width:65px; height:35px;"><input type="text" class="typeable" id="p17box3" /></div>
-          <div class="box" style="left:514px; top:294px; width:202px; height:123px;"><input type="text" class="typeable" id="p17box4" /></div>
-        </div>
-
-        <div id="page18" class="page">
-          <div class="box" style="left:80px; top:357px; width:252px; height:56px;"><input type="text" class="typeable" id="p18box1" /></div>
-          <div class="box" style="left:80px; top:420px; width:252px; height:30px;"><button id="unlockBtn">Unlock</button></div>
-        </div>
+      <div id="progressRow">
+        <div id="progressBar"><div id="progress"></div></div>
+        <span id="progressText">0% completed</span>
+        <span id="saveStatus">Not saved yet</span>
       </div>
     </div>
 
-    <!-- SECOND CANVAS: Role selection + PDF viewer -->
-    <div id="role-container">
+    <div id="main-area">
+      <div id="main-wrapper">
+        <div id="nav-buttons">
+          <button id="prev-btn" type="button">Previous</button>
+          <button id="next-btn" type="button">Next</button>
+        </div>
+
+        <div id="container">
+          <div id="page1" class="page active"></div>
+          <div id="page2" class="page"></div>
+
+          <div id="page3" class="page">
+            <div class="box" style="left:469px; top:151px; width:123px; height:31px;"><input type="text" class="typeable" id="p3box1" /></div>
+            <div class="box" style="left:418px; top:189px; width:169px; height:30px;"><input type="text" class="typeable" id="p3box2" /></div>
+            <div class="box" style="left:469px; top:284px; width:101px; height:31px;"><input type="text" class="typeable" id="p3box3" /></div>
+            <div class="box" style="left:575px; top:284px; width:101px; height:31px;"><input type="text" class="typeable" id="p3box4" /></div>
+            <div class="box" style="left:810px; top:284px; width:118px; height:31px;"><input type="text" class="typeable" id="p3box5" /></div>
+            <div class="box" style="left:575px; top:380px; width:96px; height:30px;"><input type="text" class="typeable" id="p3box6" /></div>
+            <div class="box" style="left:620px; top:416px; width:86px; height:30px;"><input type="text" class="typeable" id="p3box7" /></div>
+          </div>
+
+          <div id="page4" class="page" style="position:relative;">
+            <div style="position:absolute;top:0;left:0;width:100%;z-index:2;transform:scale(0.85);transform-origin:top center;display:flex;justify-content:center;padding-top:10px;">
+              <iframe src="https://www.geogebra.org/material/iframe/id/b3dvxbgp/width/1200/height/600/border/888888/rc/false/ai/false" width="1200" height="480" style="border:0;"></iframe>
+            </div>
+          </div>
+
+          <div id="page5" class="page">
+            <div class="box" style="left:410px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p5box1" /></div>
+            <div class="box" style="left:598px; top:127px; width:53px; height:36px;"><input type="text" class="typeable" id="p5box2" /></div>
+            <div class="box" style="left:801px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p5box3" /></div>
+            <div class="box" style="left:710px; top:197px; width:86px; height:57px;"><input type="text" class="typeable" data-correct="280" id="p5box4" /></div>
+            <div class="box" style="left:421px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p5box5" /></div>
+            <div class="box" style="left:517px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p5box6" /></div>
+            <div class="box" style="left:613px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p5box7" /></div>
+            <div class="box" style="left:306px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" data-correct="56" id="p5box8" style="background-color:#ffa577;" /></div>
+            <div class="box" style="left:382px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p5box9" style="background-color:#ffa577;" /></div>
+            <div class="box" style="left:471px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p5box10" style="background-color:#74b47b;" /></div>
+            <div class="box" style="left:555px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p5box11" style="background-color:#74b47b;" /></div>
+            <div class="box" style="left:641px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p5box12" style="background-color:#ff76d1;" /></div>
+            <div class="box" style="left:720px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p5box13" style="background-color:#ff76d1;" /></div>
+            <div class="box" style="left:808px; top:335px; width:87px; height:56px;"><input type="text" class="typeable" data-correct="262" id="p5box14" /></div>
+            <div class="box" style="left:75px; top:362px; width:156px; height:133px;">
+              <img src="https://daryeaye.github.io/gt5/net.gif" alt="Net Image" style="width:100%; height:100%;" />
+            </div>
+          </div>
+
+          <div id="page6" class="page">
+            <div class="box" style="left:410px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p6box1" /></div>
+            <div class="box" style="left:598px; top:127px; width:53px; height:36px;"><input type="text" class="typeable" id="p6box2" /></div>
+            <div class="box" style="left:801px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p6box3" /></div>
+            <div class="box" style="left:710px; top:197px; width:86px; height:57px;"><input type="text" class="typeable" data-correct="160" id="p6box4" /></div>
+            <div class="box" style="left:421px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p6box5" /></div>
+            <div class="box" style="left:517px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p6box6" /></div>
+            <div class="box" style="left:613px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p6box7" /></div>
+            <div class="box" style="left:306px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" data-correct="20" id="p6box8" style="background-color:#ffa577;" /></div>
+            <div class="box" style="left:382px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p6box9" style="background-color:#ffa577;" /></div>
+            <div class="box" style="left:471px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p6box10" style="background-color:#74b47b;" /></div>
+            <div class="box" style="left:555px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p6box11" style="background-color:#74b47b;" /></div>
+            <div class="box" style="left:641px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p6box12" style="background-color:#ff76d1;" /></div>
+            <div class="box" style="left:720px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p6box13" style="background-color:#ff76d1;" /></div>
+            <div class="box" style="left:808px; top:335px; width:87px; height:56px;"><input type="text" class="typeable" data-correct="184" id="p6box14" /></div>
+            <div class="box" style="left:75px; top:362px; width:156px; height:133px;">
+              <img src="https://daryeaye.github.io/gt5/net.gif" alt="Net Image" style="width:100%; height:100%;" />
+            </div>
+          </div>
+
+          <div id="page7" class="page">
+            <div class="box" style="left:410px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p7box1" /></div>
+            <div class="box" style="left:598px; top:127px; width:53px; height:36px;"><input type="text" class="typeable" id="p7box2" /></div>
+            <div class="box" style="left:801px; top:127px; width:54px; height:36px;"><input type="text" class="typeable" id="p7box3" /></div>
+            <div class="box" style="left:710px; top:197px; width:86px; height:57px;"><input type="text" class="typeable" data-correct="343" id="p7box4" /></div>
+            <div class="box" style="left:421px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p7box5" /></div>
+            <div class="box" style="left:517px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p7box6" /></div>
+            <div class="box" style="left:613px; top:211px; width:54px; height:41px;"><input type="text" class="typeable" id="p7box7" /></div>
+            <div class="box" style="left:306px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" data-correct="49" id="p7box8" style="background-color:#ffa577;" /></div>
+            <div class="box" style="left:382px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p7box9" style="background-color:#ffa577;" /></div>
+            <div class="box" style="left:471px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p7box10" style="background-color:#74b47b;" /></div>
+            <div class="box" style="left:555px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p7box11" style="background-color:#74b47b;" /></div>
+            <div class="box" style="left:641px; top:335px; width:53px; height:56px;"><input type="text" class="typeable" id="p7box12" style="background-color:#ff76d1;" /></div>
+            <div class="box" style="left:720px; top:335px; width:54px; height:56px;"><input type="text" class="typeable" id="p7box13" style="background-color:#ff76d1;" /></div>
+            <div class="box" style="left:808px; top:335px; width:87px; height:56px;"><input type="text" class="typeable" data-correct="294" id="p7box14" /></div>
+            <div class="box" style="left:75px; top:362px; width:156px; height:133px;">
+              <img src="https://daryeaye.github.io/gt5/net.gif" alt="Net Image" style="width:100%; height:100%;" />
+            </div>
+          </div>
+
+          <div id="page8" class="page"></div>
+
+          <div id="page9" class="page">
+            <div class="box" style="left:25px; top:69px; width:389px; height:132px;">
+              <input type="text" class="typeable largeFont" data-correct="2748" data-match="contains" id="p9box1" />
+            </div>
+            <div class="box" style="left:25px; top:256px; width:389px; height:131px;">
+              <input type="text" class="typeable largeFont" data-correct="9360" data-match="contains" id="p9box2" />
+            </div>
+          </div>
+
+          <div id="page10" class="page">
+            <div class="box" style="left:25px; top:69px; width:389px; height:132px;">
+              <input type="text" class="typeable largeFont" data-correct="13600" data-match="contains" id="p10box1" />
+            </div>
+            <div class="box" style="left:25px; top:256px; width:389px; height:131px;">
+              <input type="text" class="typeable largeFont" data-correct="105600" data-match="contains" id="p10box2" />
+            </div>
+          </div>
+
+          <div id="page11" class="page">
+            <div class="box" style="left:25px; top:69px; width:389px; height:132px;">
+              <input type="text" class="typeable largeFont" data-correct="4390" data-match="contains" id="p11box1" />
+            </div>
+            <div class="box" style="left:25px; top:256px; width:389px; height:131px;">
+              <input type="text" class="typeable largeFont" data-correct="19250" data-match="contains" id="p11box2" />
+            </div>
+          </div>
+
+          <div id="page12" class="page">
+            <div class="box" style="left:15px; top:233px; width:491px; height:153px;">
+              <input type="text" class="typeable largeFont" data-correct="200" data-match="contains" id="p12box1" />
+            </div>
+          </div>
+
+          <div id="page13" class="page">
+            <div class="box" style="left:19px; top:77px; width:381px; height:355px;">
+              <input type="text" class="typeable largeFont" data-correct="80000" data-match="contains" id="p13box1" />
+            </div>
+            <canvas id="drawCanvas" width="480" height="540" style="position:absolute;top:0;right:0;z-index:2;border:none;"></canvas>
+            <button id="resetDraw" type="button">Reset</button>
+          </div>
+
+          <div id="page14" class="page">
+            <div class="box" style="left:19px; top:77px; width:381px; height:355px;">
+              <input type="text" class="typeable largeFont" data-correct="4200" data-match="contains" id="p14box1" />
+            </div>
+          </div>
+
+          <div id="page15" class="page"></div>
+          <div id="page16" class="page">
+            <button
+              type="button"
+              onclick="window.open('https://daryeaye.github.io/gt5/5-16.jpg','_blank')"
+              style="
+                position:absolute;
+                left:378px;
+                top:28px;
+                width:166px;
+                height:44px;
+                font-size:24px;
+                font-family:'Love Ya Like A Sister', cursive;
+                background:lightblue;
+                border:none;
+                border-radius:6px;
+                cursor:pointer;
+                z-index:5;
+                line-height:1;
+              ">
+              Open me!
+            </button>
+          </div>
+
+          <div id="page17" class="page">
+            <div class="box" style="left:118px; top:315px; width:65px; height:35px;"><input type="text" class="typeable" id="p17box1" /></div>
+            <div class="box" style="left:349px; top:350px; width:65px; height:35px;"><input type="text" class="typeable" id="p17box2" /></div>
+            <div class="box" style="left:214px; top:389px; width:65px; height:35px;"><input type="text" class="typeable" id="p17box3" /></div>
+            <div class="box" style="left:514px; top:294px; width:202px; height:123px;"><textarea class="typeable" id="p17box4" style="text-align:left;"></textarea></div>
+          </div>
+
+          <div id="page18" class="page">
+            <div class="box" style="left:80px; top:357px; width:252px; height:56px;"><input type="text" class="typeable" id="p18box1" /></div>
+          </div>
+
+          <div id="pageTransitionOverlay"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="role-container" aria-label="Role selection canvas">
+      <div id="pdfStatus">Loading PDF...</div>
       <div id="role-stage">
-        <!-- Hotspots scaled from 1600x900 -> 960x540 (x0.6) -->
-        <button class="role-hotspot" id="hotspot-officer"  title="Officer"
-          style="left:117px; top:73px; width:197px; height:166px;"></button>
+        <button class="role-hotspot" id="hotspot-officer"
+                style="left:117px; top:73px; width:197px; height:166px;"
+                aria-label="Officer" title="Officer"></button>
 
-        <button class="role-hotspot" id="hotspot-professor" title="Professor"
-          style="left:382px; top:73px; width:197px; height:166px;"></button>
+        <button class="role-hotspot" id="hotspot-professor"
+                style="left:382px; top:73px; width:197px; height:166px;"
+                aria-label="Professor" title="Professor"></button>
 
-        <button class="role-hotspot" id="hotspot-hacker"   title="Hacker"
-          style="left:647px; top:73px; width:197px; height:166px;"></button>
+        <button class="role-hotspot" id="hotspot-hacker"
+                style="left:647px; top:73px; width:197px; height:166px;"
+                aria-label="Hacker" title="Hacker"></button>
 
-        <button class="role-hotspot" id="hotspot-video" title="What is the role for?"
-          style="left:301px; top:460px; width:358px; height:31px;"></button>
+        <button class="role-hotspot" id="hotspot-video"
+                style="left:301px; top:460px; width:358px; height:31px;"
+                aria-label="What is the file for?" title="What is the file for?"></button>
       </div>
-
-      <div id="pdf-view">
-        <div id="pdf-scroll"></div>
-      </div>
+      <div id="pdfViewer"></div>
     </div>
 
-    <!-- Translation widget -->
-    <div id="side-widget">
-      <p class="title">Need translation?</p>
-      <button id="select-text">Select Text</button>
-      <p><a href="https://translate.google.com/?sl=en&tl=es&op=images" target="_blank">Click me and paste from clipboard</a></p>
+    <div id="openFileWrap"><button id="openFileBtn" type="button">Open the file on a new tab</button></div>
+  </div>
+
+  <div id="side-widget" class="collapsed" aria-label="Translation widget">
+    <button id="collapse-widget" type="button" aria-label="Collapse translation widget">–</button>
+    <p class="title">Translation!</p>
+    <button id="select-text" type="button">Select Text</button>
+    <p><a href="https://translate.google.com/?sl=en&tl=es&op=images" target="_blank">Click me and paste from clipboard</a></p>
+  </div>
+
+  <div id="authOverlay">
+    <div id="authOverlayBox">
+      <div id="authOverlayTitle">Sign in to start</div>
+      <div id="authOverlayText">Please log in or register before entering the quest. Username cannot contain spaces.</div>
+      <input type="text" id="auth-username" placeholder="Username" autocomplete="username" />
+      <input type="password" id="auth-password" placeholder="Password" autocomplete="current-password" />
+      <div id="authOverlayButtons">
+        <button id="authRegisterBtn" type="button">Register</button>
+        <button id="authLoginBtn" type="button">Log In</button>
+      </div>
+      <div id="authModalStatus"></div>
     </div>
   </div>
 
   <script>
-    // PDF.js worker
     pdfjsLib.GlobalWorkerOptions.workerSrc =
       "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-    const ROLE_PDFS = {
-      officer:   "https://daryeaye.github.io/geotopia/GT1%20Officer+.pdf",
-      professor: "https://daryeaye.github.io/geotopia/GT1%20Professor+.pdf",
-      hacker:    "https://daryeaye.github.io/geotopia/GT1%20Hacker+.pdf"
+    const TUTORIAL_IMAGES = [
+      "https://daryeaye.github.io/geotopia/t2.jpg",
+      "https://daryeaye.github.io/geotopia/t3.jpg"
+    ];
+
+    const TUTORIAL_STORAGE_KEY = "lt5_tutorial_seen";
+    const APP_ID = "losttreasure-pt5";
+    const WORKER_BASE_URL = "https://geotopia-powerfall-auth-api.daryeaye.workers.dev";
+    const SESSION_STORAGE = {
+      token: "lt5_auth_token",
+      username: "lt5_auth_username"
     };
 
-    const roleStage = document.getElementById("role-stage");
-    const pdfView   = document.getElementById("pdf-view");
-    const pdfScroll = document.getElementById("pdf-scroll");
+    const INTRO_URL = "https://www.youtube.com/watch?v=PFy9wgmUADc";
+    const WRONG_MESSAGE = "🛑 Annie said you are incorrect.";
+    const FINAL_UNLOCK_URL = "https://daryeaye.github.io/geotopia/weikeduo.pdf";
+    const ROLE_PDF_URLS = {
+      officer: "https://daryeaye.github.io/geotopia/GT1%20Officer+.pdf",
+      professor: "https://daryeaye.github.io/geotopia/GT1%20Professor+.pdf",
+      hacker: "https://daryeaye.github.io/geotopia/GT1%20Hacker+.pdf"
+    };
+    const ROLE_VIDEO_URL = "https://www.youtube.com/watch?v=Fj98o3aFfk8";
 
-    async function loadPdfInSecondCanvas(url){
-      roleStage.style.display = "none";
-      pdfView.style.display = "block";
-      pdfScroll.innerHTML = "";
+    let currentPage = 1;
+    const totalPages = 18;
+    let maxPageVisited = 1;
 
-      try{
+    let currentPdfUrl = "";
+    let currentPdfRole = "";
+    let pdfScrollTop = 0;
+
+    let authToken = "";
+    let authUsername = "";
+    let autoSaveTimer = null;
+    let saveInFlight = false;
+    let saveQueued = false;
+    let isApplyingRemoteData = false;
+
+    let tutorialIndex = 0;
+    let drawCtx = null;
+    let drawPreviewing = false;
+    let drawStartX = 0;
+    let drawStartY = 0;
+    const drawingState = { line: null };
+
+    function openIntro() {
+      window.open(INTRO_URL, "_blank");
+    }
+
+    function setAuthStatus(message, isError = false) {
+      const el = document.getElementById("authStatus");
+      el.textContent = message;
+      el.style.color = isError ? "#b00020" : "#222";
+    }
+
+    function setSaveStatus(text) {
+      document.getElementById("saveStatus").textContent = text;
+    }
+
+    function wait(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function closeCustomPopup() {
+      document.getElementById("customPopupOverlay").style.display = "none";
+      document.getElementById("customPopupMessage").textContent = "";
+      document.getElementById("customPopupButtons").innerHTML = "";
+    }
+
+    function showCustomPopup(message, buttons = [{ text: "OK", action: closeCustomPopup }]) {
+      const overlay = document.getElementById("customPopupOverlay");
+      const msg = document.getElementById("customPopupMessage");
+      const btnWrap = document.getElementById("customPopupButtons");
+
+      msg.textContent = message;
+      btnWrap.innerHTML = "";
+
+      buttons.forEach(btn => {
+        const b = document.createElement("button");
+        b.className = "popupBtn";
+        b.textContent = btn.text;
+        b.onclick = () => {
+          closeCustomPopup();
+          if (btn.action) btn.action();
+        };
+        btnWrap.appendChild(b);
+      });
+
+      overlay.style.display = "flex";
+    }
+
+    function showMessagePopup(message) {
+      showCustomPopup(message, [{ text: "OK", action: closeCustomPopup }]);
+    }
+
+    async function runCanvasTransition(action) {
+      const overlay = document.getElementById("pageTransitionOverlay");
+      overlay.style.pointerEvents = "auto";
+      overlay.style.opacity = "1";
+      await wait(280);
+      action();
+      await wait(60);
+      overlay.style.opacity = "0";
+      await wait(280);
+      overlay.style.pointerEvents = "none";
+    }
+
+    function setAuthModalStatus(message, isError = false) {
+      const status = document.getElementById("authModalStatus");
+      if (!status) return;
+      status.textContent = message || "";
+      status.style.color = isError ? "#b00020" : "#222";
+    }
+
+    function openAuthOverlay(prefillUsername = "") {
+      const overlay = document.getElementById("authOverlay");
+      const usernameInput = document.getElementById("auth-username");
+      const passwordInput = document.getElementById("auth-password");
+
+      if (prefillUsername) {
+        usernameInput.value = prefillUsername;
+      } else if (authUsername) {
+        usernameInput.value = authUsername;
+      }
+
+      passwordInput.value = "";
+      setAuthModalStatus("Please sign in to continue.", false);
+      overlay.style.display = "flex";
+      usernameInput.focus();
+    }
+
+    function closeAuthOverlay() {
+      document.getElementById("authOverlay").style.display = "none";
+      setAuthModalStatus("", false);
+    }
+
+    function maybeRequireAuthOverlay() {
+      if (!authToken) {
+        openAuthOverlay(authUsername || "");
+      }
+    }
+
+    function updateAuthUI() {
+      const signedIn = !!authToken;
+      document.getElementById("logoutBtn").style.display = signedIn ? "inline-block" : "none";
+      setAuthStatus(signedIn ? ("Logged in as " + (authUsername || "student")) : "Not logged in", false);
+      if (signedIn) {
+        closeAuthOverlay();
+      }
+    }
+
+    function saveSessionLocally(token, username) {
+      authToken = token || "";
+      authUsername = username || "";
+      localStorage.setItem(SESSION_STORAGE.token, authToken);
+      localStorage.setItem(SESSION_STORAGE.username, authUsername);
+      updateAuthUI();
+    }
+
+    function clearSessionLocally() {
+      authToken = "";
+      authUsername = "";
+      localStorage.removeItem(SESSION_STORAGE.token);
+      localStorage.removeItem(SESSION_STORAGE.username);
+      updateAuthUI();
+    }
+
+    function restoreSessionLocally() {
+      authToken = localStorage.getItem(SESSION_STORAGE.token) || "";
+      authUsername = localStorage.getItem(SESSION_STORAGE.username) || "";
+      updateAuthUI();
+    }
+
+    function getTypeableInputs() {
+      return Array.from(document.querySelectorAll("#container .typeable"));
+    }
+
+    function getInputSnapshot() {
+      const snapshot = {};
+      getTypeableInputs().forEach(el => {
+        if (el.id) {
+          snapshot[el.id] = el.value || "";
+        }
+      });
+      return snapshot;
+    }
+
+    function applyInputSnapshot(snapshot) {
+      getTypeableInputs().forEach(el => {
+        if (!el.id) return;
+        el.value = snapshot && Object.prototype.hasOwnProperty.call(snapshot, el.id)
+          ? (snapshot[el.id] ?? "")
+          : "";
+      });
+    }
+
+    function drawStoredLine(tempEndX = null, tempEndY = null) {
+      const canvas = document.getElementById("drawCanvas");
+      if (!canvas || !drawCtx) return;
+
+      drawCtx.clearRect(0, 0, canvas.width, canvas.height);
+      let line = drawingState.line;
+
+      if (!line && tempEndX === null) return;
+
+      const x1 = line ? line.x1 : drawStartX;
+      const y1 = line ? line.y1 : drawStartY;
+      const x2 = line ? line.x2 : tempEndX;
+      const y2 = line ? line.y2 : tempEndY;
+
+      if ([x1, y1, x2, y2].some(v => typeof v !== "number")) return;
+
+      drawCtx.beginPath();
+      drawCtx.moveTo(x1, y1);
+      drawCtx.lineTo(x2, y2);
+      drawCtx.strokeStyle = "red";
+      drawCtx.lineWidth = 2;
+      drawCtx.stroke();
+    }
+
+    function getDrawingSnapshot() {
+      return {
+        line: drawingState.line
+          ? {
+              x1: drawingState.line.x1,
+              y1: drawingState.line.y1,
+              x2: drawingState.line.x2,
+              y2: drawingState.line.y2
+            }
+          : null
+      };
+    }
+
+    function applyDrawingSnapshot(snapshot) {
+      if (snapshot && snapshot.line && typeof snapshot.line === "object") {
+        drawingState.line = {
+          x1: Number(snapshot.line.x1),
+          y1: Number(snapshot.line.y1),
+          x2: Number(snapshot.line.x2),
+          y2: Number(snapshot.line.y2)
+        };
+      } else {
+        drawingState.line = null;
+      }
+      drawStoredLine();
+    }
+
+    function buildProgressPayload() {
+      const viewer = document.getElementById("pdfViewer");
+      return {
+        playerName: authUsername,
+        currentPage,
+        maxPageVisited,
+        currentPdfUrl,
+        currentPdfRole,
+        pdfScrollTop: viewer ? viewer.scrollTop : 0,
+        inputValues: getInputSnapshot(),
+        drawing: getDrawingSnapshot()
+      };
+    }
+
+    async function applyProgressPayload(payload) {
+      isApplyingRemoteData = true;
+
+      const safe = payload && typeof payload === "object" ? payload : {};
+      applyInputSnapshot(safe.inputValues || {});
+      applyDrawingSnapshot(safe.drawing || null);
+
+      currentPage = Number.isInteger(Number(safe.currentPage)) ? Number(safe.currentPage) : 1;
+      if (currentPage < 1) currentPage = 1;
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      maxPageVisited = Number.isInteger(Number(safe.maxPageVisited)) ? Number(safe.maxPageVisited) : currentPage;
+      if (maxPageVisited < 1) maxPageVisited = 1;
+      if (maxPageVisited > totalPages) maxPageVisited = totalPages;
+      if (maxPageVisited < currentPage) maxPageVisited = currentPage;
+
+      currentPdfUrl = String(safe.currentPdfUrl || "");
+      currentPdfRole = String(safe.currentPdfRole || "");
+      pdfScrollTop = Number.isFinite(Number(safe.pdfScrollTop)) ? Number(safe.pdfScrollTop) : 0;
+
+      showPage(currentPage);
+
+      if (currentPdfUrl) {
+        try {
+          await renderPdfIntoSecondCanvas(currentPdfUrl, currentPdfRole, true);
+        } catch (err) {
+          console.error(err);
+        }
+      } else {
+        exitPdfMode();
+      }
+
+      isApplyingRemoteData = false;
+    }
+
+    async function apiFetch(path, options = {}) {
+      const headers = {
+        "Content-Type": "application/json",
+        ...(options.headers || {})
+      };
+
+      if (authToken) {
+        headers.Authorization = "Bearer " + authToken;
+      }
+
+      const response = await fetch(WORKER_BASE_URL + path, {
+        method: options.method || "GET",
+        headers,
+        body: options.body
+      });
+
+      const json = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(json.error || "Request failed");
+      }
+      return json;
+    }
+
+    async function registerUser() {
+      const usernameInput = document.getElementById("auth-username");
+      const passwordInput = document.getElementById("auth-password");
+
+      const rawUsername = usernameInput.value || "";
+      const username = rawUsername.trim().toLowerCase();
+      const password = passwordInput.value;
+
+      if (!username || !password) {
+        setAuthStatus("Enter username and password", true);
+        setAuthModalStatus("Enter username and password.", true);
+        return;
+      }
+
+      if (/\s/.test(rawUsername)) {
+        setAuthStatus("Username cannot contain spaces.", true);
+        setAuthModalStatus("Username cannot contain spaces.", true);
+        return;
+      }
+
+      try {
+        setAuthStatus("Registering...");
+        setAuthModalStatus("Registering...", false);
+        const result = await apiFetch("/api/register", {
+          method: "POST",
+          body: JSON.stringify({ username, password, appId: APP_ID })
+        });
+
+        saveSessionLocally(result.token, result.username || username);
+        passwordInput.value = "";
+        await loadProgressFromServer();
+        setAuthModalStatus("Account created.", false);
+        closeAuthOverlay();
+      } catch (err) {
+        setAuthStatus(err.message || "Register failed", true);
+        setAuthModalStatus(err.message || "Register failed", true);
+      }
+    }
+
+    async function loginUser() {
+      const usernameInput = document.getElementById("auth-username");
+      const passwordInput = document.getElementById("auth-password");
+
+      const rawUsername = usernameInput.value || "";
+      const username = rawUsername.trim().toLowerCase();
+      const password = passwordInput.value;
+
+      if (!username || !password) {
+        setAuthStatus("Enter username and password", true);
+        setAuthModalStatus("Enter username and password.", true);
+        return;
+      }
+
+      if (/\s/.test(rawUsername)) {
+        setAuthStatus("Username cannot contain spaces.", true);
+        setAuthModalStatus("Username cannot contain spaces.", true);
+        return;
+      }
+
+      try {
+        setAuthStatus("Logging in...");
+        setAuthModalStatus("Logging in...", false);
+        const result = await apiFetch("/api/login", {
+          method: "POST",
+          body: JSON.stringify({ username, password, appId: APP_ID })
+        });
+
+        saveSessionLocally(result.token, result.username || username);
+        passwordInput.value = "";
+        await loadProgressFromServer();
+        setAuthModalStatus("Logged in.", false);
+        closeAuthOverlay();
+      } catch (err) {
+        setAuthStatus(err.message || "Login failed", true);
+        setAuthModalStatus(err.message || "Login failed", true);
+      }
+    }
+
+    async function loadProgressFromServer() {
+      if (!authToken) return;
+
+      const result = await apiFetch("/api/load?appId=" + encodeURIComponent(APP_ID), {
+        method: "GET"
+      });
+
+      if (result.username) {
+        authUsername = result.username;
+        localStorage.setItem(SESSION_STORAGE.username, authUsername);
+      }
+
+      updateAuthUI();
+      await applyProgressPayload(result.saveData || {});
+      setSaveStatus("Loaded");
+    }
+
+    async function saveProgressToServer() {
+      if (!authToken || saveInFlight || isApplyingRemoteData) return;
+
+      saveInFlight = true;
+      try {
+        await apiFetch("/api/save", {
+          method: "POST",
+          body: JSON.stringify({
+            appId: APP_ID,
+            saveData: buildProgressPayload()
+          })
+        });
+        setAuthStatus("Logged in as " + (authUsername || "student"));
+        setSaveStatus("Saved");
+      } catch (err) {
+        setAuthStatus(err.message || "Save failed", true);
+        setSaveStatus("Save failed");
+      } finally {
+        saveInFlight = false;
+        if (saveQueued) {
+          saveQueued = false;
+          saveProgressToServer();
+        }
+      }
+    }
+
+    function queueCloudSave() {
+      if (isApplyingRemoteData || !authToken) return;
+
+      clearTimeout(autoSaveTimer);
+      autoSaveTimer = setTimeout(() => {
+        if (saveInFlight) {
+          saveQueued = true;
+          return;
+        }
+        setSaveStatus("Saving...");
+        saveProgressToServer();
+      }, 900);
+    }
+
+    async function flushPendingSaveBeforeLogout() {
+      clearTimeout(autoSaveTimer);
+      autoSaveTimer = null;
+
+      if (!authToken || isApplyingRemoteData) return;
+
+      if (saveInFlight) {
+        saveQueued = true;
+        while (saveInFlight) {
+          await wait(80);
+        }
+      }
+
+      await saveProgressToServer();
+
+      while (saveInFlight) {
+        await wait(80);
+      }
+    }
+
+    async function logoutUser() {
+      try {
+        setSaveStatus("Saving...");
+        await flushPendingSaveBeforeLogout();
+      } catch (err) {
+        console.error(err);
+      }
+
+      try {
+        if (authToken) {
+          await apiFetch("/api/logout", {
+            method: "POST",
+            body: "{}"
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
+
+      const prefill = authUsername || "";
+      clearSessionLocally();
+      setSaveStatus("Not saved yet");
+      openAuthOverlay(prefill);
+    }
+
+    function updateProgress() {
+      const pct = (maxPageVisited / totalPages) * 100;
+      document.getElementById("progress").style.width = pct + "%";
+      document.getElementById("progressText").innerText = pct.toFixed(0) + "% completed";
+    }
+
+    function showPage(p) {
+      for (let i = 1; i <= totalPages; i++) {
+        document.getElementById("page" + i).classList.remove("active");
+      }
+      document.getElementById("page" + p).classList.add("active");
+      currentPage = p;
+
+      if (currentPage > maxPageVisited) {
+        maxPageVisited = currentPage;
+      }
+
+      document.getElementById("prev-btn").style.display = p === 1 ? "none" : "inline-block";
+      document.getElementById("next-btn").style.display = p === totalPages ? "none" : "inline-block";
+      updateProgress();
+    }
+
+    function validateCurrentPage() {
+      if (currentPage === 3) {
+        const inputs = document.querySelectorAll("#page3 input[type='text']");
+        const cnt = Array.from(inputs).filter(x => x.value.trim() !== "").length;
+        if (cnt < 4) {
+          showMessagePopup(WRONG_MESSAGE);
+          return false;
+        }
+      }
+
+      if (currentPage === 17) {
+        const inputs = document.querySelectorAll("#page17 .typeable");
+        for (const inp of inputs) {
+          if ((inp.value || "").trim() === "") {
+            showMessagePopup(WRONG_MESSAGE);
+            return false;
+          }
+        }
+      }
+
+      const chk = document.querySelectorAll("#page" + currentPage + " input[data-correct]");
+      for (const inp of chk) {
+        const exp = inp.getAttribute("data-correct");
+        const mt = inp.getAttribute("data-match");
+        const ent = (inp.value || "").trim().replace(/,/g, "");
+        if (mt === "contains") {
+          if (!ent.includes(exp)) {
+            showMessagePopup(WRONG_MESSAGE);
+            return false;
+          }
+        } else {
+          if (ent !== exp) {
+            showMessagePopup(WRONG_MESSAGE);
+            return false;
+          }
+        }
+      }
+
+      return true;
+    }
+
+    async function prevPage() {
+      if (!authToken) {
+        openAuthOverlay(authUsername || "");
+        return;
+      }
+      if (currentPage > 1) {
+        const target = currentPage - 1;
+        await runCanvasTransition(() => showPage(target));
+        queueCloudSave();
+      }
+    }
+
+    async function nextPage() {
+      if (!authToken) {
+        openAuthOverlay(authUsername || "");
+        return;
+      }
+      if (!validateCurrentPage()) return;
+      if (currentPage < totalPages) {
+        const target = currentPage + 1;
+        await runCanvasTransition(() => showPage(target));
+        queueCloudSave();
+      }
+    }
+
+    function initDrawingCanvas() {
+      const canvas = document.getElementById("drawCanvas");
+      if (!canvas) return;
+      drawCtx = canvas.getContext("2d");
+
+      canvas.addEventListener("mousedown", function (e) {
+        if (drawingState.line) return;
+        drawPreviewing = true;
+        const rect = canvas.getBoundingClientRect();
+        drawStartX = e.clientX - rect.left;
+        drawStartY = e.clientY - rect.top;
+      });
+
+      canvas.addEventListener("mousemove", function (e) {
+        if (!drawPreviewing || drawingState.line) return;
+        const rect = canvas.getBoundingClientRect();
+        const curX = e.clientX - rect.left;
+        const curY = e.clientY - rect.top;
+        drawStoredLine(curX, curY);
+      });
+
+      canvas.addEventListener("mouseup", function (e) {
+        if (!drawPreviewing || drawingState.line) return;
+        const rect = canvas.getBoundingClientRect();
+        const endX = e.clientX - rect.left;
+        const endY = e.clientY - rect.top;
+        drawingState.line = { x1: drawStartX, y1: drawStartY, x2: endX, y2: endY };
+        drawPreviewing = false;
+        drawStoredLine();
+        queueCloudSave();
+      });
+
+      canvas.addEventListener("mouseleave", function () {
+        if (!drawPreviewing || drawingState.line) return;
+        drawStoredLine();
+      });
+
+      document.getElementById("resetDraw").addEventListener("click", function () {
+        drawingState.line = null;
+        drawPreviewing = false;
+        drawStoredLine();
+        queueCloudSave();
+      });
+    }
+
+    function exitPdfMode() {
+      const roleContainer = document.getElementById("role-container");
+      const viewer = document.getElementById("pdfViewer");
+      const status = document.getElementById("pdfStatus");
+      roleContainer.classList.remove("pdf-mode");
+      viewer.style.display = "none";
+      viewer.innerHTML = "";
+      viewer.scrollTop = 0;
+      status.style.display = "none";
+      currentPdfUrl = "";
+      currentPdfRole = "";
+      pdfScrollTop = 0;
+    }
+
+    async function renderPdfIntoSecondCanvas(url, roleKey = "", preserveScroll = false) {
+      const roleContainer = document.getElementById("role-container");
+      const viewer = document.getElementById("pdfViewer");
+      const status = document.getElementById("pdfStatus");
+
+      currentPdfUrl = url;
+      currentPdfRole = roleKey || "";
+      viewer.innerHTML = "";
+      viewer.style.display = "block";
+      roleContainer.classList.add("pdf-mode");
+      status.textContent = "Loading PDF...";
+      status.style.display = "block";
+
+      try {
         const loadingTask = pdfjsLib.getDocument({ url });
         const pdf = await loadingTask.promise;
+        const targetWidth = 920;
 
-        const targetWidth = 940;
-        for(let pageNum=1; pageNum<=pdf.numPages; pageNum++){
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
           const page = await pdf.getPage(pageNum);
-
           const viewport1 = page.getViewport({ scale: 1 });
           const scale = targetWidth / viewport1.width;
           const viewport = page.getViewport({ scale });
 
           const canvas = document.createElement("canvas");
-          const ctx = canvas.getContext("2d");
+          canvas.className = "pdfPageCanvas";
           canvas.width = Math.floor(viewport.width);
           canvas.height = Math.floor(viewport.height);
 
-          pdfScroll.appendChild(canvas);
+          const ctx = canvas.getContext("2d", { alpha: false });
+          viewer.appendChild(canvas);
           await page.render({ canvasContext: ctx, viewport }).promise;
         }
-      }catch(err){
-        console.error(err);
-        alert("PDF failed to load in the canvas. Check Console for details.");
-        pdfView.style.display = "none";
-        roleStage.style.display = "block";
+
+        status.style.display = "none";
+        viewer.scrollTop = preserveScroll ? pdfScrollTop : 0;
+        queueCloudSave();
+      } catch (err) {
+        console.error("PDF.js render error:", err);
+        exitPdfMode();
+        showMessagePopup("PDF failed to load in the canvas. Check Console for details.");
       }
     }
 
-    document.getElementById("hotspot-officer").addEventListener("click", () => loadPdfInSecondCanvas(ROLE_PDFS.officer));
-    document.getElementById("hotspot-professor").addEventListener("click", () => loadPdfInSecondCanvas(ROLE_PDFS.professor));
-    document.getElementById("hotspot-hacker").addEventListener("click", () => loadPdfInSecondCanvas(ROLE_PDFS.hacker));
-    document.getElementById("hotspot-video").addEventListener("click", () => {
-      window.open("https://www.youtube.com/watch?v=Fj98o3aFfk8", "_blank");
-    });
+    function initSecondCanvasHotspots() {
+      document.getElementById("hotspot-officer").addEventListener("click", function () {
+        renderPdfIntoSecondCanvas(ROLE_PDF_URLS.officer, "officer");
+      });
 
-    // ----------------- Original app logic (kept) -----------------
-    let currentPage = 1, totalPages = 18, maxPageVisited = 1;
+      document.getElementById("hotspot-professor").addEventListener("click", function () {
+        renderPdfIntoSecondCanvas(ROLE_PDF_URLS.professor, "professor");
+      });
 
-    function updateProgress(){
-      const p = (maxPageVisited / totalPages) * 100;
-      document.getElementById("progress").style.width = p + "%";
-      document.getElementById("progressText").innerText = p.toFixed(0) + "% completed";
+      document.getElementById("hotspot-hacker").addEventListener("click", function () {
+        renderPdfIntoSecondCanvas(ROLE_PDF_URLS.hacker, "hacker");
+      });
+
+      document.getElementById("hotspot-video").addEventListener("click", function () {
+        window.open(ROLE_VIDEO_URL, "_blank");
+      });
+
+      document.getElementById("pdfViewer").addEventListener("scroll", function (e) {
+        pdfScrollTop = e.target.scrollTop;
+        queueCloudSave();
+      });
     }
 
-    function showPage(p){
-      for(let i=1;i<=totalPages;i++){
-        document.getElementById("page"+i).classList.remove("active");
-      }
-      document.getElementById("page"+p).classList.add("active");
-
-      document.getElementById("prev-btn").style.display = p===1 ? "none" : "inline-block";
-      document.getElementById("next-btn").style.display = p===totalPages ? "none" : "inline-block";
-
-      updateProgress();
-    }
-
-    function prevPage(){
-      if(currentPage>1){
-        currentPage--;
-        showPage(currentPage);
-      }
-    }
-
-    function nextPage(){
-      if(currentPage===3){
-        const inputs = document.querySelectorAll("#page3 input[type='text']");
-        const cnt = Array.from(inputs).filter(x=>x.value.trim()!=="").length;
-        if(cnt<4){ alert("🛑 Annie said you are incorrect."); return; }
-      }
-
-      if(currentPage===17){
-        const inputs=document.querySelectorAll("#page17 input[type='text']");
-        for(let inp of inputs){
-          if(inp.value.trim()===""){ alert("🛑 Annie said you are incorrect."); return; }
+    function initOpenFileButton() {
+      document.getElementById("openFileBtn").addEventListener("click", function () {
+        if (!currentPdfUrl) {
+          showMessagePopup("Pick a role file first.");
+          return;
         }
-      }
-
-      const chk = document.querySelectorAll("#page"+currentPage+" input[data-correct]");
-      for(let inp of chk){
-        const exp = inp.getAttribute("data-correct");
-        const mt  = inp.getAttribute("data-match");
-        const ent = inp.value.trim().replace(/,/g,"");
-        if(mt==="contains"){
-          if(!ent.includes(exp)){ alert("🛑 Annie said you are incorrect."); return; }
-        }else{
-          if(ent!==exp){ alert("🛑 Annie said you are incorrect."); return; }
-        }
-      }
-
-      if(currentPage<totalPages){
-        currentPage++;
-        if(currentPage>maxPageVisited) maxPageVisited=currentPage;
-        showPage(currentPage);
-      }
-    }
-
-    function confirmName(){
-      const ni=document.getElementById("username"), name=ni.value.trim();
-      if(name!==""){
-        localStorage.setItem("username",name);
-        ni.disabled=true;
-        alert("Name confirmed as: "+name);
-      }else{
-        alert("Please enter a name.");
-      }
-    }
-
-    function openIntro(){
-    window.open("https://www.youtube.com/watch?v=PFy9wgmUADc", "_blank");
-    }
-
-    function setupPersistence(){
-      const n=localStorage.getItem("username"), ni=document.getElementById("username");
-      if(n!==null && n!==""){ ni.value=n; ni.disabled=true; }
-
-      document.querySelectorAll("input[type='text']").forEach(el=>{
-        const key=el.id, st=localStorage.getItem(key);
-        if(st!==null) el.value=st;
-        el.addEventListener("input",()=>{ localStorage.setItem(key, el.value); });
+        window.open(currentPdfUrl, "_blank");
       });
     }
 
-    function setupCanvas(){
-      const c=document.getElementById("drawCanvas");
-      if(!c) return;
-      const ctx=c.getContext("2d");
-      let drawing=false, lineDone=false, startX, startY;
+    function initUnlockButton() {
+      const inp = document.getElementById("p18box1");
+      if (!inp) return;
 
-      c.addEventListener("mousedown",e=>{
-        if(lineDone) return;
-        drawing=true;
-        const r=c.getBoundingClientRect();
-        startX=e.clientX-r.left;
-        startY=e.clientY-r.top;
-      });
+      let justOpened = false;
 
-      c.addEventListener("mousemove",e=>{
-        if(!drawing || lineDone) return;
-        const r=c.getBoundingClientRect(), curX=e.clientX-r.left, curY=e.clientY-r.top;
-        ctx.clearRect(0,0,c.width,c.height);
-        ctx.beginPath();
-        ctx.moveTo(startX,startY);
-        ctx.lineTo(curX,curY);
-        ctx.strokeStyle="red";
-        ctx.lineWidth=2;
-        ctx.stroke();
-      });
+      inp.addEventListener("input", function () {
+        const code = (inp.value || "").trim();
 
-      c.addEventListener("mouseup",e=>{
-        if(!drawing || lineDone) return;
-        const r=c.getBoundingClientRect(), endX=e.clientX-r.left, endY=e.clientY-r.top;
-        ctx.clearRect(0,0,c.width,c.height);
-        ctx.beginPath();
-        ctx.moveTo(startX,startY);
-        ctx.lineTo(endX,endY);
-        ctx.strokeStyle="red";
-        ctx.lineWidth=2;
-        ctx.stroke();
-        lineDone=true;
-        drawing=false;
-      });
+        if (code === "31621" && !justOpened) {
+          justOpened = true;
+          window.open(FINAL_UNLOCK_URL, "_blank");
+          inp.value = "";
+          queueCloudSave();
 
-      document.getElementById("resetDraw").addEventListener("click",()=>{
-        ctx.clearRect(0,0,c.width,c.height);
-        lineDone=false;
-      });
-    }
-
-    function setupUnlock(){
-      const btn=document.getElementById("unlockBtn");
-      if(!btn) return;
-
-      btn.addEventListener("click",()=>{
-        const inp=document.getElementById("p18box1");
-        const code=inp.value.trim();
-        if(code==="31621"){
-          window.open("https://daryeaye.github.io/geotopia/weikeduo.pdf","_blank");
-          inp.value="";
-          localStorage.removeItem("p18box1");
-        }else{
-          alert("🛑 Annie said you are incorrect.");
+          setTimeout(() => {
+            justOpened = false;
+          }, 300);
         }
       });
     }
 
-    document.addEventListener("DOMContentLoaded",()=>{
-      showPage(currentPage);
-      setupPersistence();
-      setupCanvas();
-      setupUnlock();
-    });
+    function initTranslatorWidget() {
+      const widget = document.getElementById("side-widget");
+      const collapseBtn = document.getElementById("collapse-widget");
 
-    // Translation widget screenshot selection (captures app-container like your original)
-    document.getElementById("select-text").addEventListener("click",function(){
-      const o=document.createElement("div");
-      o.id="selection-overlay";
-      document.body.appendChild(o);
+      collapseBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        widget.classList.add("collapsed");
+      });
 
-      let sX,sY,sB;
-      o.addEventListener("mousedown",function(e){
-        sX=e.clientX; sY=e.clientY;
-        sB=document.createElement("div");
-        sB.id="selection-box";
-        sB.style.left=sX+"px";
-        sB.style.top=sY+"px";
-        sB.style.width="0px";
-        sB.style.height="0px";
-        o.appendChild(sB);
-
-        function mH(e){
-          const cX=e.clientX,cY=e.clientY,l=Math.min(sX,cX),t=Math.min(sY,cY),w=Math.abs(cX-sX),h=Math.abs(cY-sY);
-          sB.style.left=l+"px"; sB.style.top=t+"px"; sB.style.width=w+"px"; sB.style.height=h+"px";
+      widget.addEventListener("click", function () {
+        if (widget.classList.contains("collapsed")) {
+          widget.classList.remove("collapsed");
         }
+      });
+    }
 
-        function uH(e){
-          o.removeEventListener("mousemove",mH);
-          o.removeEventListener("mouseup",uH);
-          const r=sB.getBoundingClientRect();
-          document.body.removeChild(o);
+    function initTranslationScreenshotTool() {
+      document.getElementById("select-text").addEventListener("click", function () {
+        const overlay = document.createElement("div");
+        overlay.id = "selection-overlay";
+        document.body.appendChild(overlay);
 
-          const T=document.getElementById("app-container"), TR=T.getBoundingClientRect();
-          html2canvas(T,{useCORS:true,allowTaint:false}).then(canvas=>{
-            const sf=canvas.width/TR.width,
-                  sx=(r.left-TR.left)*sf,
-                  sy=(r.top-TR.top)*sf,
-                  sw=r.width*sf,
-                  sh=r.height*sf,
-                  cc=document.createElement("canvas");
-            cc.width=sw; cc.height=sh;
-            const ctx=cc.getContext("2d");
-            ctx.drawImage(canvas,sx,sy,sw,sh,0,0,sw,sh);
-            cc.toBlob(blob=>{
-              if(blob){
-                const itm=new ClipboardItem({"image/png":blob});
-                navigator.clipboard.write([itm]).then(()=>{
-                  alert("Screenshot copied to clipboard.");
-                }).catch(err=>{
-                  console.error("Failed to copy screenshot to clipboard",err);
-                  alert("Failed to copy screenshot to clipboard.");
+        let startX, startY, selectionBox;
+
+        overlay.addEventListener("mousedown", function (e) {
+          startX = e.clientX;
+          startY = e.clientY;
+          selectionBox = document.createElement("div");
+          selectionBox.id = "selection-box";
+          selectionBox.style.left = startX + "px";
+          selectionBox.style.top = startY + "px";
+          selectionBox.style.width = "0px";
+          selectionBox.style.height = "0px";
+          overlay.appendChild(selectionBox);
+
+          function mouseMoveHandler(e) {
+            const currentX = e.clientX;
+            const currentY = e.clientY;
+            const left = Math.min(startX, currentX);
+            const top = Math.min(startY, currentY);
+            const width = Math.abs(currentX - startX);
+            const height = Math.abs(currentY - startY);
+            selectionBox.style.left = left + "px";
+            selectionBox.style.top = top + "px";
+            selectionBox.style.width = width + "px";
+            selectionBox.style.height = height + "px";
+          }
+
+          function mouseUpHandler() {
+            overlay.removeEventListener("mousemove", mouseMoveHandler);
+            overlay.removeEventListener("mouseup", mouseUpHandler);
+            const rect = selectionBox.getBoundingClientRect();
+            document.body.removeChild(overlay);
+
+            const target = document.getElementById("app-container");
+            const targetRect = target.getBoundingClientRect();
+
+            html2canvas(target, { useCORS: true, allowTaint: false }).then(canvas => {
+              const scaleFactor = canvas.width / targetRect.width;
+              const sx = (rect.left - targetRect.left) * scaleFactor;
+              const sy = (rect.top - targetRect.top) * scaleFactor;
+              const sWidth = rect.width * scaleFactor;
+              const sHeight = rect.height * scaleFactor;
+
+              const croppedCanvas = document.createElement("canvas");
+              croppedCanvas.width = sWidth;
+              croppedCanvas.height = sHeight;
+
+              const ctx = croppedCanvas.getContext("2d");
+              ctx.drawImage(canvas, sx, sy, sWidth, sHeight, 0, 0, sWidth, sHeight);
+
+              croppedCanvas.toBlob(blob => {
+                if (!blob) return;
+                const item = new ClipboardItem({ "image/png": blob });
+                navigator.clipboard.write([item]).then(() => {
+                  showMessagePopup("Screenshot copied to clipboard.");
+                }).catch(err => {
+                  console.error("Failed to copy screenshot to clipboard", err);
+                  showMessagePopup("Failed to copy screenshot to clipboard.");
                 });
-              }
+              });
             });
-          });
-        }
+          }
 
-        o.addEventListener("mousemove",mH);
-        o.addEventListener("mouseup",uH);
+          overlay.addEventListener("mousemove", mouseMoveHandler);
+          overlay.addEventListener("mouseup", mouseUpHandler);
+        });
       });
+    }
+
+    function initCloudSaveInputs() {
+      getTypeableInputs().forEach(input => {
+        input.addEventListener("input", function () {
+          queueCloudSave();
+        });
+      });
+    }
+
+    function showTutorial() {
+      const alreadySeen = localStorage.getItem(TUTORIAL_STORAGE_KEY);
+      if (alreadySeen === "yes") {
+        maybeRequireAuthOverlay();
+        return;
+      }
+
+      tutorialIndex = 0;
+      document.getElementById("tutorialImage").src = TUTORIAL_IMAGES[tutorialIndex];
+      document.getElementById("tutorialOverlay").style.display = "flex";
+    }
+
+    function nextTutorialSlide() {
+      tutorialIndex++;
+      if (tutorialIndex >= TUTORIAL_IMAGES.length) {
+        document.getElementById("tutorialOverlay").style.display = "none";
+        localStorage.setItem(TUTORIAL_STORAGE_KEY, "yes");
+        maybeRequireAuthOverlay();
+        return;
+      }
+      document.getElementById("tutorialImage").src = TUTORIAL_IMAGES[tutorialIndex];
+    }
+
+    function initTutorial() {
+      document.getElementById("tutorialNext").addEventListener("click", nextTutorialSlide);
+      TUTORIAL_IMAGES.forEach(url => {
+        const pre = new Image();
+        pre.src = url;
+      });
+      showTutorial();
+    }
+
+    document.addEventListener("DOMContentLoaded", async function () {
+      restoreSessionLocally();
+      initDrawingCanvas();
+      initSecondCanvasHotspots();
+      initOpenFileButton();
+      initUnlockButton();
+      initTranslatorWidget();
+      initTranslationScreenshotTool();
+      initCloudSaveInputs();
+
+      document.getElementById("introBtn").addEventListener("click", openIntro);
+      document.getElementById("authRegisterBtn").addEventListener("click", registerUser);
+      document.getElementById("authLoginBtn").addEventListener("click", loginUser);
+      document.getElementById("logoutBtn").addEventListener("click", logoutUser);
+      document.getElementById("prev-btn").addEventListener("click", prevPage);
+      document.getElementById("next-btn").addEventListener("click", nextPage);
+
+      document.getElementById("auth-password").addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          loginUser();
+        }
+      });
+
+      showPage(currentPage);
+      drawStoredLine();
+
+      if (authToken) {
+        try {
+          await loadProgressFromServer();
+        } catch (err) {
+          console.error(err);
+          clearSessionLocally();
+          showPage(currentPage);
+        }
+      }
+
+      initTutorial();
     });
   </script>
 
